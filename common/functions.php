@@ -1,7 +1,7 @@
 <?php
 
 if(!defined('REN')) {
-		exit('Access Defined!');
+		exit('不正なリンク!');
 }
 
 //---------------- Custom Functions ------------------//
@@ -188,8 +188,30 @@ function login_user(){
 	}	
 }
 
+/******** Contact Send Message ********/
 
+function send_message(){
+	if(isset($_POST['submit'])){
 
+		$to			=	"murenkakashu@yahoo.co.jp";
+		$from_name	=	$_POST['name'];
+		$email		=	$_POST['email'];
+		$subject	=	$_POST['subject'];
+		$message	=	$_POST['message'];
+
+		$headers = "From: {$from_name} {$email}";
+
+		$result = mail($to, $subject, $message, $headers);
+
+		if(!$result){
+			set_message("メッセージの送信に失敗しました。");
+			redirect("contact.php");
+		}else{
+			set_message("メッセージが送信されました。");
+			redirect("contact.php");
+		}
+	}
+}
 
 
 

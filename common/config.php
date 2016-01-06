@@ -1,7 +1,7 @@
 <?php
 
 	if(!defined('REN')) {
-		exit('Access Defined!');
+		exit('不正なリンク!');
 	}
 
 	session_start();
