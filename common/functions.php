@@ -1,5 +1,9 @@
 <?php
 
+if(!defined('REN')) {
+		exit('Access Defined!');
+}
+
 //---------------- Custom Functions ------------------//
 
 function query($sql){
@@ -37,7 +41,20 @@ function redirect($location){
 	header("Location: $location");
 }
 
+function set_message($msg){
+	if(!empty($msg)){
+		$_SESSION['message'] = $msg;
+	}else{
+		$msg = "";
+	}
+}
 
+function display_message(){
+	if(isset($_SESSION['message'])){
+		echo $_SESSION['message'];
+		unset($_SESSION['message']);
+	}
+}
 
 
 //---------------- Front end Functions ------------------//
@@ -45,7 +62,6 @@ function redirect($location){
 /******** Get Products ********/
 
 function get_products(){
-
 	$query = query("SELECT * FROM products");
 	confirm($query);
 	$price = 0;
@@ -60,7 +76,10 @@ function get_products(){
 	                        <div class="caption">
 	                            <h4 class="pull-right">&yen;{$price}</h4>
 	                            <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h4>
-	                            <p><a target="_blank" href="https://www.amazon.co.jp">Amazon- https://www.amazon.co.jp</a>でこのオンラインストアのアイテムのように多くの情報を参照してください。</p>
+	                            <p>
+	                            	<a target="_blank" href="https://www.amazon.co.jp">Amazon- https://www.amazon.co.jp</a>
+	                            	でこのオンラインストアのアイテムのように多くの情報を参照してください。
+	                            </p>
 	                        	<a class="btn btn-primary" target="_blank" href="item.php?id={$row['product_id']}">カートに入れる</a>
 	                        </div>
 
@@ -71,23 +90,23 @@ DELIMETER;
 		
 		echo $product;
 	}
-
+	db_free_close($query);
 }
 
 /******** Get Categories ********/
 
-function get_categories(){
-	$cquery = query("SELECT * FROM categories");
-	confirm($cquery);
+function get_categories(){	
+	$query = query("SELECT * FROM categories");
+	confirm($query);
 
-	while($row = fetch_array($cquery)){
+	while($row = fetch_array($query)){
 		$category = <<<DELIMETER
 					<a href='category.php?id={$row['cat_id']}' class='list-group-item'>{$row['cat_title']}</a>
 DELIMETER;
 		
 		echo $category;
 	}
-
+	mysqli_free_result($query);
 }
 
 /******** Get Products in Category Page ********/
@@ -106,7 +125,8 @@ function get_products_in_cat_page(){
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 		                        <p>
-		                            <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
+		                            <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
+		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
 		                        </p>
 		                    </div>
 		                </div>
@@ -115,7 +135,7 @@ DELIMETER;
 		
 		echo $product;
 	}
-
+	db_free_close($query);
 }
 
 /******** Get Products in Shop Page ********/
@@ -134,7 +154,8 @@ function get_products_in_shop_page(){
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 		                        <p>
-		                            <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a> <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
+		                            <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
+		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
 		                        </p>
 		                    </div>
 		                </div>
@@ -143,10 +164,29 @@ DELIMETER;
 		
 		echo $product;
 	}
+	db_free_close($query);
 }
 
+/******** User Login ********/
 
+function login_user(){
+	if(isset($_POST['submit'])){
+		$email = escape_string($_POST['email']);
+		$password = escape_string($_POST['password']);
 
+		$query = query("SELECT * FROM users WHERE email = '{$email}' AND password = '{$password}' ");
+		confirm($query);
+
+		if(mysqli_num_rows($query) == 0){
+			set_message("認証できませんでした!");
+			redirect("login.php");
+		}else{
+			$_SESSION['username'] = $username;
+			redirect("admin");
+		}
+		db_free_close($query);
+	}	
+}
 
 
 

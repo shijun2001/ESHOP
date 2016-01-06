@@ -1,5 +1,9 @@
 <?php
 
+	if(!defined('REN')) {
+		exit('Access Defined!');
+	}
+
 	session_start();
 
 	/*For the SESSION test*/
@@ -18,5 +22,7 @@
 	mysqli_query($conn,'set names utf8');
 
 	require_once("functions.php");
+
+	date_default_timezone_set('Japan');
 
 ?>

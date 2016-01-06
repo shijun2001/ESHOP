@@ -1,3 +1,4 @@
+<?php define('REN',true); ?>
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
 

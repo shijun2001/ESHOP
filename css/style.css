@@ -24,7 +24,7 @@ body {
 .caption {
     /* height: 130px;
     overflow: hidden; */
-    height: 156px;
+    height: 160px;
 }
 
 .caption h4 {
@@ -53,4 +53,21 @@ body {
 footer {
     margin: 50px 0;
     text-align: center;
+}
+
+
+
+
+
+form .bottom-space {
+    margin: 10px;
+}
+
+form .birth {
+    
+    padding: 0;
+}
+
+.birth-label {
+    margin-right: 20px;
 }

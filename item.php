@@ -1,3 +1,4 @@
+<?php define('REN',true); ?>
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
 		
@@ -97,11 +98,11 @@
 						<div class="col-md-6">
     						<h3>レビュー</h3>
 							<form action="" class="form-inline">
-								<div class="form-group addreview">
+								<div class="form-group addreview bottom-space">
 						            <label for="">&nbsp;名&nbsp;&nbsp;&nbsp;前&nbsp;&nbsp;:</label>
 						            <input type="text" class="form-control" >
 						        </div>
-						        <div class="form-group addreview">
+						        <div class="form-group addreview bottom-space">
 						            <label for="">Eメール:</label>
 						            <input type="test" class="form-control">
 						        </div>
