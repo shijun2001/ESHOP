@@ -1,4 +1,3 @@
-<?php define('REN',true); ?>
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
 		
@@ -38,7 +37,7 @@
 						<p><?php echo $row['short_desc']; ?></p>   
 					    <form action="">
 					        <div class="form-group">
-					        	<a href="../resources/cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">カートに入れる</a>
+					        	<a href="./common/cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">カートに入れる</a>
 					        </div>
 					    </form>
 					</div>

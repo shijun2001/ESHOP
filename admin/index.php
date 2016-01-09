@@ -12,7 +12,10 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">	
 
 		<!-- Admin CSS -->
-    	<link rel="stylesheet" type="text/css" href="css/admin.css">	
+    	<link rel="stylesheet" type="text/css" href="css/admin.css">
+
+    	<!-- Custom Fonts -->
+    	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

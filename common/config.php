@@ -1,9 +1,5 @@
 <?php
 
-	if(!defined('REN')) {
-		exit('不正なリンク!');
-	}
-
 	session_start();
 
 	/*For the SESSION test*/
@@ -22,6 +18,8 @@
 	mysqli_query($conn,'set names utf8');
 
 	require_once("functions.php");
+
+	require_once("cart.php");
 
 	date_default_timezone_set('Japan');
 

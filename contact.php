@@ -1,4 +1,3 @@
-<?php define('REN',true); ?>
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
 
@@ -37,7 +36,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-lg-12 text-center">
-                        <button type="submit" name="submit"　class="btn btn-default">&nbsp;送 信&nbsp;</button>
+                        <button type="submit" name="submit"　class="btn btn-primary">&nbsp;送 信&nbsp;</button>
                     </div>
                 </div>
             </form>

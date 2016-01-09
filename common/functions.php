@@ -1,9 +1,5 @@
 <?php
 
-if(!defined('REN')) {
-		exit('不正なリンク!');
-}
-
 //---------------- Custom Functions ------------------//
 
 function query($sql){
@@ -80,7 +76,7 @@ function get_products(){
 	                            	<a target="_blank" href="https://www.amazon.co.jp">Amazon- https://www.amazon.co.jp</a>
 	                            	でこのオンラインストアのアイテムのように多くの情報を参照してください。
 	                            </p>
-	                        	<a class="btn btn-primary" target="_blank" href="item.php?id={$row['product_id']}">カートに入れる</a>
+	                        	<a class="btn btn-primary" target="_blank" href="./common/cart.php?add={$row['product_id']}">カートに入れる</a>
 	                        </div>
 
 	                        
@@ -125,7 +121,7 @@ function get_products_in_cat_page(){
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 		                        <p>
-		                            <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
+		                            <a href="./common/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
 		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
 		                        </p>
 		                    </div>
@@ -154,7 +150,7 @@ function get_products_in_shop_page(){
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 		                        <p>
-		                            <a href="../resources/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
+		                            <a href="./common/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
 		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
 		                        </p>
 		                    </div>
@@ -187,6 +183,11 @@ function login_user(){
 		db_free_close($query);
 	}	
 }
+
+/******** TOP Login ********/
+
+
+
 
 /******** Contact Send Message ********/
 
