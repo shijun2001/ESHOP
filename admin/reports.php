@@ -21,7 +21,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>&yen;</td>
+            <td></td>
             <td></td>
             <td></td>                 
             <td><a class="btn btn-danger" href="#"><span class='glyphicon glyphicon-remove'></span></a></td>

@@ -21,7 +21,7 @@
                     <h4><a href="#">このウェブサイトが好き?</a>
                     </h4>
                     <p>このウェブサイトが好きの場合, 私のGihubページに<a target="_blank" href="https://github.com/shijun2001">このソースコード</a>をチェックアウトすることができます！</p>
-                    <a class="btn btn-primary" target="_blank" href="https://github.com/shijun2001">Githubへ</a>
+                    <a class="btn btn-primary" target="_blank" href="https://github.com/shijun2001">Githubへ</a>                    
                 </div>
         	</div>
     	</div><!-- .col-md-9 -->

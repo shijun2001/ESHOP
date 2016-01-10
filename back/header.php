@@ -5,14 +5,17 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-		<title>Eショップ</title>
+		<title>アドミン</title>
 		<!-- 新 Bootstrap 核心 CSS 文件 -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">	
 
-		<!-- Custom Fonts -->
-    	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">	
+		<!-- Admin CSS -->
+    	<link rel="stylesheet" type="text/css" href="css/admin.css">
+
+    	<!-- Custom Fonts -->
+    	<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,6 +26,15 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<?php include("./front/top_nav.php"); ?>
-		</nav>
+	
+		<div id="wrapper">
+
+	        <!-- Navigation -->
+	        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	            <!-- Brand and toggle get grouped for better mobile display -->
+				<?php include("../back/top_nav.php"); ?>	           
+
+	            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+	            <?php include("../back/side_nav.php"); ?>
+	            
+	        </nav>

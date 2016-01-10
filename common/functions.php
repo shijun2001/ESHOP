@@ -177,17 +177,14 @@ function login_user(){
 			set_message("認証できませんでした!");
 			redirect("login.php");
 		}else{
-			$_SESSION['username'] = $username;
+			$row = fetch_array($query);
+			$nickname = $row['nickname'];
+			$_SESSION['nickname'] = $nickname;
 			redirect("admin");
 		}
 		db_free_close($query);
 	}	
 }
-
-/******** TOP Login ********/
-
-
-
 
 /******** Contact Send Message ********/
 
