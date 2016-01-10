@@ -227,7 +227,28 @@ function send_message(){
 
 /******** Display orders in Admin ********/
 
+function display_orders(){
+	$query = query("SELECT * FROM orders");
+	confirm($query);
 
+	while($row = fetch_array($query)){
+		$orders = <<<DELIMETER
+				<tr>
+                    <td>{$row['order_id']}</td>
+                    <td>{$row['order_amount']}</td>
+                    <td>{$row['order_transaction']}</td>
+                    <td>{$row['order_status']}</td>
+                    <td>{$row['order_currency']}</td>
+                    <td>{$row['order_date']}</td>
+                    <td>{$row['order_time']}</td>
+                    <td><a class="btn btn-danger" href="delete_order.php?id={$row['order_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+                </tr>
+DELIMETER;
+		
+		echo $orders;
+	}
+	db_free_close($query);
+}
 
 
 

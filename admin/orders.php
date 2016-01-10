@@ -2,7 +2,8 @@
     <div class="row">
         <h1 class="page-header">
            すべての注文
-        </h1>        
+        </h1>
+        <h4 class="bg-success"><?php display_message(); ?></h4>
     </div>
 
     <div class="row">
@@ -12,19 +13,16 @@
                     <th>注文ID</th>
                     <th>金額</th>
                     <th>トランザクション</th>
-                    <th>状態</th>
                     <th>通貨</th>
+                    <th>状態</th>
+                    <th>注文日</th>
+                    <th>注文時間</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a class="btn btn-danger" href="#"><span class='glyphicon glyphicon-remove'></span></a></td>
-                </tr>
+                
+                <?php display_orders(); ?>
+                
             </tbody>
         </table>
     </div>
