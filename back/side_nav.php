@@ -4,7 +4,7 @@
             <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> ダッシュボード</a>
         </li>
         <li>
-            <a href="index.php?orders"><i class="fa fa-fw fa-credit-card"></i> オーダー</a>
+            <a href="index.php?orders&p=0"><i class="fa fa-fw fa-credit-card"></i> オーダー</a>
         </li>
         <li>
             <a href="index.php?reports"><i class="fa fa-fw fa-bar-chart-o"></i> レポート</a>

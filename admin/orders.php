@@ -19,11 +19,9 @@
                     <th>注文時間</th>
                 </tr>
             </thead>
-            <tbody>
-                
-                <?php display_orders(); ?>
-                
+            <tbody>                
+                <?php display_orders(); ?>                
             </tbody>
-        </table>
+        </table>        
     </div>
 </div><!-- col-md-12 -->

@@ -11,9 +11,6 @@
 
 		<link rel="stylesheet" type="text/css" href="css/style.css">	
 
-		<!-- Admin CSS -->
-    	<link rel="stylesheet" type="text/css" href="css/admin.css">
-
     	<!-- Custom Fonts -->
     	<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 

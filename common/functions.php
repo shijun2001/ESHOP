@@ -1,7 +1,6 @@
 <?php
 
 //---------------- Custom Functions ------------------//
-
 function query($sql){
 	global $conn;
 	return mysqli_query($conn, $sql);
@@ -61,9 +60,7 @@ function last_id(){
 
 
 //---------------- Front end Functions ------------------//
-
 /******** Get Products ********/
-
 function get_products(){
 	$query = query("SELECT * FROM products");
 	confirm($query);
@@ -97,7 +94,6 @@ DELIMETER;
 }
 
 /******** Get Categories ********/
-
 function get_categories(){	
 	$query = query("SELECT * FROM categories");
 	confirm($query);
@@ -113,7 +109,6 @@ DELIMETER;
 }
 
 /******** Get Products in Category Page ********/
-
 function get_products_in_cat_page(){
 	$query = query("SELECT * FROM products WHERE product_category_id = " . escape_string($_GET['id']) . " ");
 	confirm($query);
@@ -142,7 +137,6 @@ DELIMETER;
 }
 
 /******** Get Products in Shop Page ********/
-
 function get_products_in_shop_page(){
 	$query = query("SELECT * FROM products");
 	confirm($query);
@@ -171,7 +165,6 @@ DELIMETER;
 }
 
 /******** User Login ********/
-
 function login_user(){
 	if(isset($_POST['submit'])){
 		$email = escape_string($_POST['email']);
@@ -194,7 +187,6 @@ function login_user(){
 }
 
 /******** Contact Send Message ********/
-
 function send_message(){
 	if(isset($_POST['submit'])){
 
@@ -224,11 +216,88 @@ function send_message(){
 
 
 //---------------- Back end Functions ------------------//
+/******** Change Pages ********/
+function pages($page,$pagesize,$command){
+		$prev = $page - 1;
+		$next = $page + 1;		
+		$showpage = 5;
+
+		/* Totle page */
+		$total_query = query("SELECT COUNT(*) FROM orders");
+		$total_result = fetch_array($total_query);
+		$total = $total_result[0];
+		$total_pages = ceil($total/$pagesize);
+		$pagebanner = 	'<nav>
+		           			<ul class="pagination">';
+
+		/* Show pages */
+		$pageoffset = ($showpage-1)/2;
+		$start = 1;
+		$end = $total_pages;		
+
+		if($page > 0){
+			$pagebanner .= "    
+				                <li>
+				                	<a href='{$_SERVER["PHP_SELF"]}?{$command}&p={$prev}' aria-label='Previous'>
+				                        <span aria-hidden='true'>&laquo;</span>
+				                    </a>
+				                </li>
+							";
+		}
+
+		if($total_pages > $showpage){
+			if($page > $pageoffset + 1){
+				$pagebanner .= "<li><a>...</a></li>";
+			}
+			if($page > $pageoffset){
+				$start = $page - $pageoffset;
+				$end = $total_pages > $page + $pageoffset ? $page + $pageoffset : $total_pages;
+			}else{
+				$strat = 1;
+				$end = $total_pages > $showpage ? $showpage : $total_pages;
+			}
+			if($page + $pageoffset > $total_pages){
+				$start = $start - ($page + $pageoffset - $end);
+			}
+		}
+
+		for($i = $start;$i <= $end;$i++){
+			$j = $i - 1;
+			$pagebanner .= "<li><a href='{$_SERVER["PHP_SELF"]}?{$command}&p={$j}'>{$i}</a></li>";			
+		}
+
+		if($total_pages > $showpage && $total_pages > $page + $pageoffset){
+			$pagebanner .= "<li><a>...</a></li>";
+		}
+
+		if($page < $total_pages - 1){
+			$pagebanner .= "    
+				                <li>
+				                	<a href='{$_SERVER["PHP_SELF"]}?{$command}&p={$next}' aria-label='Next'>
+				                        <span aria-hidden='true'>&raquo;</span>
+				                    </a>
+				                </li>
+							";
+		}
+
+		$pagebanner .= "
+								<li><a href='#'>共{$total_pages}页</a></li>
+				                <li><a href='#'>第{$next}页</a></li>	
+		                	</ul>
+				        </nav>";
+
+		echo $pagebanner;
+		db_free_close($total_query);
+}
+
 
 /******** Display orders in Admin ********/
-
 function display_orders(){
-	$query = query("SELECT * FROM orders");
+	$page = $_GET['p'];
+	$pagesize = 5;
+	$command = "orders";	
+
+	$query = query("SELECT * FROM orders LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
 
 	while($row = fetch_array($query)){
@@ -247,8 +316,9 @@ DELIMETER;
 		
 		echo $orders;
 	}
-	db_free_close($query);
+	pages($page,$pagesize,$command);
 }
+
 
 
 
