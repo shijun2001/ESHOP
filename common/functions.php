@@ -52,6 +52,13 @@ function display_message(){
 	}
 }
 
+function last_id(){
+	global $conn;
+	return mysqli_insert_id($conn);
+}
+
+
+
 
 //---------------- Front end Functions ------------------//
 
@@ -216,18 +223,9 @@ function send_message(){
 
 
 
-
-
-
-
-
-
-
-
-
 //---------------- Back end Functions ------------------//
 
-
+/******** Display orders in Admin ********/
 
 
 

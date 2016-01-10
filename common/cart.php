@@ -137,15 +137,52 @@ function process_transaction(){
 		$transaction = $_GET['tx'];
 		$status = $_GET['st'];	
 
+		$order_date    =   date("Y-m-d");
+        $order_time    =   date("H:i:s");
+        $report_date   =   date("Y-m-d");
 
 		$total = 0;
 		$item_quantity = 0;
 		$price = 0;
 
-		$query = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency) 
-										VALUES ('{$amount}','{$transaction}','{$status}','{$currency}')");
-		confirm($query);
+		foreach($_SESSION as $name => $value){
+			if($value > 0){
+				if(substr($name, 0, 8) == "product_"){
 
+					$length = strlen($name - 8);
+					$id = substr($name, 8, $length);
+
+
+					$send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency, order_date, order_time) 
+										VALUES ('{$amount}','{$transaction}','{$status}','{$currency}','{$order_date}','{$order_time}')");
+					$last_id = last_id();
+					confirm($send_order);
+
+
+					$query = query("SELECT * FROM products WHERE product_id=" . escape_string($id) . " ");
+					confirm($query);
+
+					while($row = fetch_array($query)){
+
+						$product_title = $row['product_title'];
+						$product_price = $row['product_price'];
+						$price = number_format($product_price);
+						$product_sub = $row['product_price'] * $value;
+						$sub = number_format($product_sub);
+
+						$item_quantity += $value;
+
+						$insert_report = query("INSERT INTO reports (product_id, order_id, product_title, product_price, product_quantity, report_date) 
+												VALUES ('{$id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}')");
+						confirm($insert_report);
+
+					}
+
+					number_format($total += $product_sub);
+					/*echo $item_quantity;*/
+				}
+			}
+		}
 		session_destroy();
 	}else{
 		redirect("../index.php");
