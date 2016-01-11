@@ -7,19 +7,19 @@
             <a href="index.php?orders&p=0"><i class="fa fa-fw fa-credit-card"></i> オーダー</a>
         </li>
         <li>
-            <a href="index.php?reports"><i class="fa fa-fw fa-bar-chart-o"></i> レポート</a>
+            <a href="index.php?reports&p=0"><i class="fa fa-fw fa-bar-chart-o"></i> レポート</a>
         </li>
         <li>
-            <a href="index.php?products"><i class="fa fa-fw fa-table"></i> 商品</a>
+            <a href="index.php?products&p=0"><i class="fa fa-fw fa-table"></i> 商品</a>
         </li>
         <li>
             <a href="index.php?add_product"><i class="fa fa-fw fa-plus-square"></i> 商品を追加</a>
         </li>        
         <li>
-            <a href="index.php?categories"><i class="fa fa-fw fa-cubes"></i> カテゴリー</a>
+            <a href="index.php?categories&p=0"><i class="fa fa-fw fa-cubes"></i> カテゴリー</a>
         </li>
         <li>
-            <a href="index.php?users"><i class="fa fa-fw fa-users"></i> ユーザー</a>
+            <a href="index.php?users&p=0"><i class="fa fa-fw fa-users"></i> ユーザー</a>
         </li>			    
     </ul>
 </div><!-- navbar-collapse -->

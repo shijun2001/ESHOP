@@ -1,5 +1,7 @@
 <?php
 
+$upload_directory = "uploads";
+
 //---------------- Custom Functions ------------------//
 function query($sql){
 	global $conn;
@@ -68,11 +70,12 @@ function get_products(){
 
 	while($row = fetch_array($query)){
 		$price = number_format($row['product_price']);
+		$product_image = display_image($row['product_image']);
 
 		$product = <<<DELIMETER
 					<div class="col-sm-4 col-lg-4 col-md-4">
 	                    <div class="thumbnail">
-	                        <a href="item.php?id={$row['product_id']}"><img src="{$row['product_image']}" alt=""></a>
+	                        <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 	                        <div class="caption">
 	                            <h4 class="pull-right">&yen;{$price}</h4>
 	                            <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h4>
@@ -114,11 +117,12 @@ function get_products_in_cat_page(){
 	confirm($query);
 
 	while($row = fetch_array($query)){
+		$product_image = display_image($row['product_image']);
 
 		$product = <<<DELIMETER
 					<div class="col-md-3 col-sm-6 hero-feature">
 		                <div class="thumbnail">
-		                    <a href="item.php?id={$row['product_id']}"><img src="{$row['product_image']}" alt=""></a>
+		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -143,10 +147,12 @@ function get_products_in_shop_page(){
 
 	while($row = fetch_array($query)){
 
+		$product_image = display_image($row['product_image']);
+
 		$product = <<<DELIMETER
 					<div class="col-md-3 col-sm-6 hero-feature">
 		                <div class="thumbnail">
-		                    <a href="item.php?id={$row['product_id']}"><img src="{$row['product_image']}" alt=""></a>
+		                    <img src="{$product_image}" alt="">
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -201,15 +207,14 @@ function send_message(){
 		$result = mail($to, $subject, $message, $headers);
 
 		if(!$result){
-			set_message("メッセージの送信に失敗しました。");
+			set_message("メッセージの送信に失敗しました!");
 			redirect("contact.php");
 		}else{
-			set_message("メッセージが送信されました。");
+			set_message("メッセージが送信されました!");
 			redirect("contact.php");
 		}
 	}
 }
-
 
 
 
@@ -223,7 +228,7 @@ function pages($page,$pagesize,$command){
 		$showpage = 5;
 
 		/* Totle page */
-		$total_query = query("SELECT COUNT(*) FROM orders");
+		$total_query = query("SELECT COUNT(*) FROM " . $command . " ");
 		$total_result = fetch_array($total_query);
 		$total = $total_result[0];
 		$total_pages = ceil($total/$pagesize);
@@ -318,6 +323,211 @@ DELIMETER;
 	}
 	pages($page,$pagesize,$command);
 }
+
+
+/******** Admin Products Page ********/
+function display_image($picture){	
+	global $upload_directory;
+	return $upload_directory . DS . $picture;
+}
+
+function display_products(){
+	$page = $_GET['p'];
+	$pagesize = 5;
+	$command = "products";	
+
+	$query = query("SELECT * FROM products LIMIT " . $page*$pagesize . "," . $pagesize);
+	confirm($query);
+	$price = 0;
+
+	while($row = fetch_array($query)){
+
+		$category = show_product_category_title($row['product_category_id']);
+		$product_image = display_image($row['product_image']);
+		$price = number_format($row['product_price']);
+
+		$product = <<<DELIMETER
+					<tr>
+			            <td>{$row['product_id']}</td>
+			            <td>{$row['product_title']}<br>
+			                <a href="index.php?edit_product&id={$row['product_id']}"><img width="100" src="../{$product_image}" alt=""></a>
+			            </td>
+			            <td>{$category}</td>
+			            <td>&yen;{$price}</td>
+			            <td>{$row['product_quantity']}</td>
+			            <td><a class="btn btn-danger" href="delete_product.php?id={$row['product_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+			        </tr>
+DELIMETER;
+		echo $product;
+	}
+	pages($page,$pagesize,$command);
+}
+
+function show_product_category_title($product_category_id){
+
+	$query = query("SELECT * FROM categories WHERE cat_id = '{$product_category_id}' ");
+	confirm($query);
+
+	while($category_row = fetch_array($query)){
+		return $category_row['cat_title'];
+	}
+}
+
+/******** Add Products in Admin ********/
+function add_products(){
+	if(isset($_POST['publish'])){
+		global $upload_directory;
+
+		$product_title			=	escape_string($_POST['product_title']);
+		$product_category_id	=	escape_string($_POST['product_category_id']);
+		$product_price			=	escape_string($_POST['product_price']);
+		$product_description	=	escape_string($_POST['product_description']);
+		$short_desc				=	escape_string($_POST['short_desc']);
+		$product_quantity		=	escape_string($_POST['product_quantity']);
+		$product_image			=	escape_string($_FILES['file']['name']);
+		$image_temp_location	=	stripslashes(escape_string($_FILES['file']['tmp_name']));
+
+		/*if (!move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY . DS . $product_image)){			
+			echo "エラー：".$_FILES['file']['error']."<br>";
+			exit;
+		}else{
+			echo "ファイル".$_FILES['file']['name']."アップロードされました.";
+		}*/
+
+		move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY . DS . $product_image);
+
+		$query = query("INSERT INTO products(
+										product_title,
+										product_category_id, 
+										product_price, 
+										product_description, 
+										short_desc, 
+										product_quantity, 
+										product_image
+									) 
+							  VALUES(
+										'{$product_title}',
+										'{$product_category_id}', 
+										'{$product_price}', 
+										'{$product_description}', 
+										'{$short_desc}', 
+										'{$product_quantity}', 
+										'{$product_image}'
+									)"
+						);
+		$last_id = last_id();
+		confirm($query);
+		
+		set_message("{$last_id} 番の新商品 {$product_title}　を追加しました!");
+		redirect("index.php?products&p=0");
+	}
+	/*print_r($_FILES);*/
+}
+
+
+/******** Show Categories ********/
+function show_categories_add_product_page(){
+	$query = query("SELECT * FROM categories");
+	confirm($query);
+
+	while($row = fetch_array($query)){
+		$categories_options = <<<DELIMETER
+					<option value="{$row['cat_id']}">{$row['cat_title']}</option>  
+DELIMETER;
+		
+		echo $categories_options;
+	}
+	db_free_close($query);
+}
+
+
+/******** Update Products in Admin ********/
+function update_products(){
+	if(isset($_POST['update'])){
+		global $upload_directory;
+
+		$product_title			=	escape_string($_POST['product_title']);
+		$product_category_id	=	escape_string($_POST['product_category_id']);
+		$product_price			=	escape_string($_POST['product_price']);
+		$product_description	=	escape_string($_POST['product_description']);
+		$short_desc				=	escape_string($_POST['short_desc']);
+		$product_quantity		=	escape_string($_POST['product_quantity']);
+		$product_image			=	escape_string($_FILES['file']['name']);
+		$image_temp_location	=	stripslashes(escape_string($_FILES['file']['tmp_name']));
+
+		if(empty($product_image)){
+			$get_pic_query = query("SELECT product_image FROM products WHERE product_id=" . escape_string($_GET['id']) ." ");
+			confirm($get_pic_query);
+
+			while($pic = fetch_array($get_pic_query)){
+				$product_image = $pic['product_image'];
+			}
+		}
+
+		move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY . DS . $product_image);
+
+		$send_update_query 	= query("UPDATE products SET 
+					product_title='{$product_title}',
+					product_category_id='{$product_category_id}',
+					product_price='{$product_price}',
+					product_description='{$product_description}',
+					short_desc='{$short_desc}',
+					product_quantity='{$product_quantity}',
+					product_image='{$product_image}' WHERE product_id=" . escape_string($_GET['id']) ." ");		
+		confirm($send_update_query);
+		
+		set_message("商品が更新されました!");
+		redirect("index.php?products&p=0");
+	}	
+}
+
+
+/******** Categories in Admin ********/
+function display_categories(){
+	$page = $_GET['p'];
+	$pagesize = 5;
+	$command = "categories";	
+
+	$query = query("SELECT * FROM categories");
+	confirm($query);
+
+	while($row = fetch_array($query)){
+		$cat_id = $row['cat_id'];
+		$cat_title = $row['cat_title'];
+
+		$category = <<<DELIMETER
+					<tr>
+                		<td>{$cat_id}</td>
+               			<td>{$cat_title}</td>
+               			<td><a class="btn btn-danger" href="delete_category.php?id={$row['cat_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+            		</tr>
+DELIMETER;
+		echo $category;
+	}
+	pages($page,$pagesize,$command);
+}
+
+function add_category(){
+	if(isset($_POST['add_category'])){
+		$cat_title = escape_string($_POST['cat_title']);
+
+		if(empty($cat_title) || $cat_title == " "){
+			echo "<p class='bg-danger'>これは空にすることはできません!</p>";
+		}else{
+			$insert_cat = query("INSERT INTO categories(cat_title) VALUES('{$cat_title}') ");
+			confirm($insert_cat);
+			set_message("カテゴリー作成しました!");
+		}
+	}
+}
+
+
+
+
+
+
+
+
 
 
 

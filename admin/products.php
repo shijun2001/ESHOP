@@ -2,7 +2,7 @@
 <h1 class="page-header">
     すべての商品
 </h1>
-
+<h4 class="bg-success"><?php display_message(); ?></h4>
 
 <table class="table table-hover">
     <thead>
@@ -15,16 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td><br>
-                <a href=""><img width="100" src="#" alt=""></a>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><a class="btn btn-danger" href="#"><span class='glyphicon glyphicon-remove'></span></a></td>
-        </tr>
+        <?php display_products(); ?>
     </tbody>
 </table>
 

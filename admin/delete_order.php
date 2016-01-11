@@ -5,11 +5,11 @@
 		confirm($query);
 
 		set_message("注文削除されました!");
-		redirect("index.php?orders");
+		redirect("index.php?orders&p=0");
 
 	}else{
 
-		redirect("index.php?orders");
+		redirect("index.php?orders&p=0");
 
 	}
 

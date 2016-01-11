@@ -1,8 +1,11 @@
+<?php add_category(); ?>
+
 <h1 class="page-header">
     すべてのカテゴリー
 </h1>
 
-<div class="col-md-4">   
+<div class="col-md-4">  
+    <h4 class="bg-success"><?php display_message(); ?></h4>  
     <form action="" method="post">    
         <div class="form-group">
             <label for="category-title">タイトル</label>
@@ -24,11 +27,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><a class="btn btn-danger" href="#"><span class='glyphicon glyphicon-remove'></span></a></td>
-            </tr>
+            <?php display_categories(); ?>
         </tbody>
     </table>
 </div>

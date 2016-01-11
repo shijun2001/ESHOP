@@ -5,6 +5,14 @@
 	/*For the SESSION test*/
 	/*session_destroy();*/
 
+	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
+
+	defined("FRONT") ? null : define("FRONT", __DIR__ . DS . "front");
+
+	defined("BACK") ? null : define("BACK", __DIR__ . DS . "back");
+
+	defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", dirname(__DIR__) . DS . "uploads");
+
 	defined("DB_HOST") ? null : define("DB_HOST", "localhost");
 
 	defined("DB_USER") ? null : define("DB_USER", "root");

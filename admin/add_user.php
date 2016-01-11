@@ -1,3 +1,4 @@
+<?php add_user(); ?>
 <h1 class="page-header">
     ユーザーの追加
 </h1>
@@ -22,15 +23,7 @@
             <input type="text" name="email" class="form-control">
         </div>
 
-        <!-- <div class="form-group">
-            <label for="first name">姓</label>
-            <input type="text" name="first_name" class="form-control">
-        </div>
         
-        <div class="form-group">
-            <label for="lastname">名</label>
-            <input type="text" name="last_name" class="form-control">
-        </div> -->
 
         <div class="form-group">
             <label for="password">パスワード</label>
@@ -38,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            <a id="user-id" class="btn btn-danger" href="">削除</a>
+            <a id="user-id" class="btn btn-danger" href="">追加</a>
             <input type="submit" name="add_user" class="btn btn-primary pull-right" value="追加">
         </div>
     </div>

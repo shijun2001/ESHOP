@@ -1,3 +1,4 @@
+<?php add_products(); ?>
 <h1 class="page-header">
     商品を追加
 </h1>
@@ -21,7 +22,7 @@
 
         <div class="form-group row">
             <div class="col-xs-3">
-                <label for="product-price">商品価格</label>
+                <label for="product-price">商品価格（日本円）</label>
                 <input type="number" name="product_price" class="form-control" size="60">
             </div>
         </div>
@@ -38,10 +39,8 @@
         <div class="form-group">
             <label for="product-title">商品カテゴリー</label>
             <select name="product_category_id" class="form-control">
-                <option value="">選択</option>
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
+                <option value="">Select Categories</option>
+                <?php show_categories_add_product_page(); ?>
             </select>
         </div>
 

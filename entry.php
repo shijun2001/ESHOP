@@ -93,14 +93,17 @@
 
         // 性別チェック----------------------------------------------------------
         $wk_sex = array("","");
+        $en_sex = "";
         if(!isset($sex)){
             $error .= "性別を指定してください<br>";
         } else {
             if($sex == "1"){
-                $wk_sex[0] = "checked";                
+                $wk_sex[0] = "checked";
+                $en_sex = "男";            
             }
             if($sex == "2"){
                 $wk_sex[1] = "checked";
+                $en_sex = "女"; 
             }
         }
 
@@ -256,7 +259,7 @@
                                         '{$_POST['birth_year']}',
                                         '{$_POST['birth_mon']}',
                                         '{$_POST['birth_day']}',
-                                        '{$_POST['sex']}',
+                                        '{$en_sex}',
                                         '{$create_date}',
                                         '{$create_time}'                                      
                                     ) "

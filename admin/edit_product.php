@@ -1,3 +1,24 @@
+<?php   
+    if(isset($_GET['id'])){
+        $query = query("SELECT * FROM products WHERE product_id = " . escape_string($_GET['id']) . " ");
+        confirm($query);
+
+        while($row = fetch_array($query)){
+            $product_title          =   escape_string($row['product_title']);
+            $product_category_id    =   escape_string($row['product_category_id']);
+            $product_price          =   escape_string($row['product_price']);
+            $product_description    =   escape_string($row['product_description']);
+            $short_desc             =   escape_string($row['short_desc']);
+            $product_quantity       =   escape_string($row['product_quantity']);
+            $product_image          =   escape_string($row['product_image']);
+
+            $product_image = display_image($row['product_image']);
+        }        
+        update_products();
+    }
+?>
+
+
 <h1 class="page-header">
     商品を編集
 </h1>
@@ -6,23 +27,23 @@
     <div class="col-md-8">
         <div class="form-group">
             <label for="product-title">商品名</label>
-            <input type="text" name="product_title" class="form-control">
+            <input type="text" name="product_title" class="form-control" value="<?php echo $product_title; ?>">
         </div>
 
         <div class="form-group">
             <label for="product-title">商品紹介</label>
-            <textarea name="product_description" cols="30" rows="10" class="form-control"></textarea>
+            <textarea name="product_description" cols="30" rows="10" class="form-control"><?php echo $product_description; ?></textarea>
         </div>
 
         <div class="form-group">
             <label for="product-title">簡単な紹介</label>
-            <textarea name="short_desc" cols="30" rows="3" class="form-control"></textarea>
+            <textarea name="short_desc" cols="30" rows="3" class="form-control"><?php echo $short_desc; ?></textarea>
         </div>
 
         <div class="form-group row">
             <div class="col-xs-3">
-                <label for="product-price">商品価格</label>
-                <input type="number" name="product_price" class="form-control" size="60">
+                <label for="product-price">商品価格（日本円）</label>
+                <input type="number" name="product_price" class="form-control" size="60" value="<?php echo $product_price; ?>">
             </div>
         </div>
     </div><!--Main Content-->
@@ -30,31 +51,30 @@
     <!-- SIDEBAR-->
     <aside id="admin_sidebar" class="col-md-4">     
         <div class="form-group">
-            <input type="submit" name="draft" class="btn btn-warning btn-lg" value="Draft">
-            <input type="submit" name="publish" class="btn btn-primary btn-lg" value="Publish">
+            <input type="submit" name="update" class="btn btn-primary btn-lg" value="更新">
+            <input type="submit" name="cancel" class="btn btn-warning btn-lg" value="取消">
         </div>
 
         <!-- Product Categories-->
         <div class="form-group">
             <label for="product-title">商品カテゴリー</label>
             <select name="product_category_id" class="form-control">
-                <option value="">選択</option>
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
+                <option value="<?php echo $product_category_id; ?>"><?php echo show_product_category_title($product_category_id) ?></option>
+                <?php show_categories_add_product_page(); ?>
             </select>
         </div>
 
         <!-- Product Brands-->
         <div class="form-group">
             <label for="product-title">商品数量</label>
-            <input type="number" name="product_quantity" class="form-control">
+            <input type="number" name="product_quantity" class="form-control" value="<?php echo $product_quantity; ?>">
         </div>
 
         <!-- Product Image -->
         <div class="form-group">
             <label for="product-title">商品イメージ</label>
-            <input type="file" name="file">          
+            <input type="file" name="file">
+            <img width="200" src="../<?php echo $product_image; ?>" alt="">        
         </div>
 
     </aside><!--SIDEBAR-->    
