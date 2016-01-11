@@ -296,7 +296,7 @@ function pages($page,$pagesize,$command){
 }
 
 
-/******** Display orders in Admin ********/
+/******** Orders in Admin ********/
 function display_orders(){
 	$page = $_GET['p'];
 	$pagesize = 5;
@@ -315,7 +315,10 @@ function display_orders(){
                     <td>{$row['order_currency']}</td>
                     <td>{$row['order_date']}</td>
                     <td>{$row['order_time']}</td>
-                    <td><a class="btn btn-danger" href="delete_order.php?id={$row['order_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+                    <td>
+                    	<a class="btn btn-danger" href="delete_order.php?id={$row['order_id']}">
+                    	<span class='glyphicon glyphicon-remove'></span></a>
+                    </td>
                 </tr>
 DELIMETER;
 		
@@ -325,7 +328,7 @@ DELIMETER;
 }
 
 
-/******** Admin Products Page ********/
+/******** Products in Admin ********/
 function display_image($picture){	
 	global $upload_directory;
 	return $upload_directory . DS . $picture;
@@ -350,12 +353,16 @@ function display_products(){
 					<tr>
 			            <td>{$row['product_id']}</td>
 			            <td>{$row['product_title']}<br>
-			                <a href="index.php?edit_product&id={$row['product_id']}"><img width="100" src="../{$product_image}" alt=""></a>
+			                <a href="index.php?edit_product&id={$row['product_id']}">
+			                <img width="100" src="../{$product_image}" alt=""></a>
 			            </td>
 			            <td>{$category}</td>
 			            <td>&yen;{$price}</td>
 			            <td>{$row['product_quantity']}</td>
-			            <td><a class="btn btn-danger" href="delete_product.php?id={$row['product_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+			            <td>
+			            	<a class="btn btn-danger" href="delete_product.php?id={$row['product_id']}">
+			            	<span class='glyphicon glyphicon-remove'></span></a>
+			            </td>
 			        </tr>
 DELIMETER;
 		echo $product;
@@ -424,23 +431,6 @@ function add_products(){
 	/*print_r($_FILES);*/
 }
 
-
-/******** Show Categories ********/
-function show_categories_add_product_page(){
-	$query = query("SELECT * FROM categories");
-	confirm($query);
-
-	while($row = fetch_array($query)){
-		$categories_options = <<<DELIMETER
-					<option value="{$row['cat_id']}">{$row['cat_title']}</option>  
-DELIMETER;
-		
-		echo $categories_options;
-	}
-	db_free_close($query);
-}
-
-
 /******** Update Products in Admin ********/
 function update_products(){
 	if(isset($_POST['update'])){
@@ -481,6 +471,20 @@ function update_products(){
 	}	
 }
 
+/******** Show categories title ********/
+function show_categories_add_product_page(){
+	$query = query("SELECT * FROM categories");
+	confirm($query);
+
+	while($row = fetch_array($query)){
+		$categories_options = <<<DELIMETER
+					<option value="{$row['cat_id']}">{$row['cat_title']}</option>  
+DELIMETER;
+		
+		echo $categories_options;
+	}
+	db_free_close($query);
+}
 
 /******** Categories in Admin ********/
 function display_categories(){
@@ -488,7 +492,7 @@ function display_categories(){
 	$pagesize = 5;
 	$command = "categories";	
 
-	$query = query("SELECT * FROM categories");
+	$query = query("SELECT * FROM categories LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
 
 	while($row = fetch_array($query)){
@@ -499,7 +503,9 @@ function display_categories(){
 					<tr>
                 		<td>{$cat_id}</td>
                			<td>{$cat_title}</td>
-               			<td><a class="btn btn-danger" href="delete_category.php?id={$row['cat_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+               			<td><a class="btn btn-danger" href="delete_category.php?id={$row['cat_id']}">
+               				<span class='glyphicon glyphicon-remove'></span></a>
+               			</td>
             		</tr>
 DELIMETER;
 		echo $category;
@@ -507,6 +513,7 @@ DELIMETER;
 	pages($page,$pagesize,$command);
 }
 
+/******** Add Categories in Admin ********/
 function add_category(){
 	if(isset($_POST['add_category'])){
 		$cat_title = escape_string($_POST['cat_title']);
@@ -516,12 +523,149 @@ function add_category(){
 		}else{
 			$insert_cat = query("INSERT INTO categories(cat_title) VALUES('{$cat_title}') ");
 			confirm($insert_cat);
-			set_message("カテゴリー作成しました!");
+			set_message("カテゴリーを追加しました!");
 		}
 	}
 }
 
+/******** Users in Admin ********/
+function display_users(){
+	$page = $_GET['p'];
+	$pagesize = 5;
+	$command = "users";
 
+	$user_query = query("SELECT * FROM users LIMIT " . $page*$pagesize . "," . $pagesize);
+	confirm($user_query);
+
+	while($row = fetch_array($user_query)){
+		$user_id 		= 	$row['user_id'];
+		$nickname       =   $row['nickname'];
+        $password       =   $row['password'];
+        $username_shi   =   $row['username_shi'];
+        $username_mei   =   $row['username_mei'];
+        $email          =   $row['email'];
+        $adr            =   $row['adr'];
+        $tel            =   $row['tel'];
+        $birth_year     =   $row['birth_year'];
+        $birth_mon      =   $row['birth_mon'];
+        $birth_day      =   $row['birth_day'];
+        $sex            =   $row['sex']; 
+
+        $shimei = $username_shi . " " . $username_mei;
+        $birth = $birth_year . "-" . $birth_mon . "-" . $birth_day; 
+		$user_photo = display_image($row['user_photo']);
+
+		/*<a href="index.php?edit_user&id={$row['user_id']}">*/
+		$user = <<<DELIMETER
+					<tr>
+                		<td>{$user_id}<br>
+							<img width="100" src="../{$user_photo}" alt=""></a>
+                		</td>
+               			<td>{$nickname}</td>
+               			<td>{$shimei}</td>
+               			<td>{$email }</td>               			
+               			<td>{$tel}</td>
+               			<td>{$birth}</td>
+               			<td>{$sex}</td>
+               			<td><a class="btn btn-danger" href="delete_user.php?id={$row['user_id']}"><span class='glyphicon glyphicon-remove'></span></a></td>
+            		</tr>
+DELIMETER;
+		
+		echo $user;
+	}
+	pages($page,$pagesize,$command);
+}
+
+/*function add_user(){
+	if(isset($_POST['add_user'])&&($_SESSION['error'] = "true")){
+
+		$nickname       =   escape_string($_POST['nickname']);
+        $password       =   escape_string($_POST['password']);
+        $username_shi   =   escape_string($_POST['username_shi']);
+        $username_mei   =   escape_string($_POST['username_mei']);
+        $email          =   escape_string($_POST['email']);
+        $adr            =   escape_string($_POST['adr']);
+        $tel            =   escape_string($_POST['tel']);
+        $birth_year     =   escape_string($_POST['birth_year']);
+        $birth_mon      =   escape_string($_POST['birth_mon']);
+        $birth_day      =   escape_string($_POST['birth_day']);
+        $sex            =   escape_string($_POST['sex']);
+        $user_photo		=	escape_string($_FILES['file']['name']);
+		$photo_temp		=	stripslashes(escape_string($_FILES['file']['tmp_name']));
+
+		$en_sex = "";
+		if($sex == "1"){
+			$en_sex = "男";
+		}else{
+			$en_sex = "女";
+		}
+			
+		move_uploaded_file($photo_temp, UPLOAD_DIRECTORY . DS . $user_photo);
+
+		$query = query("INSERT INTO users(
+                                        nickname,
+                                        password, 
+                                        username_shi, 
+                                        username_mei, 
+                                        email, 
+                                        adr, 
+                                        tel,
+                                        birth_year,
+                                        birth_mon,
+                                        birth_day,
+                                        sex,
+                                        user_photo
+                                    ) 
+						  VALUES(
+                                        '{$nickname}',
+                                        '{$password}', 
+                                        '{$username_shi}', 
+                                        '{$username_mei}', 
+                                        '{$email}', 
+                                        '{$adr}', 
+                                        '{$tel}',
+                                        '{$birth_year}',
+                                        '{$birth_mon}',
+                                        '{$birth_day}',
+                                        '{$sex}',
+                                        '{$user_photo}'                                    
+                                    ) "
+						);
+		confirm($query);		
+		set_message("ユーザーを追加しました!");
+		redirect("index.php?users&p=0");
+		
+	}
+}*/
+
+
+/******** Reports in Admin ********/
+
+function get_reports(){
+	$query = query("SELECT * FROM reports");
+	confirm($query);
+	/*$date = date("Y/m/d") . "-" . date('G:i:s');*/
+
+	while($row = fetch_array($query)){
+		$price = number_format($row['product_price']);
+		$report = <<<DELIMETER
+					<tr>
+			            <td>{$row['report_id']}</td>
+			            <td>{$row['product_id']}</td>
+			            <td>{$row['order_id']}</td>
+			            <td>{$row['product_title']}</td>
+			            <td>&yen;{$price}</td>
+			            <td>{$row['product_quantity']}</td>
+			            <td>{date}</td>		            
+			            <td>
+				            <a class="btn btn-danger" href="delete_report.php?id={$row['report_id']}">
+				            <span class='glyphicon glyphicon-remove'></span></a>
+			            </td>
+			        </tr>
+DELIMETER;
+		echo $report;
+	}
+}
 
 
 

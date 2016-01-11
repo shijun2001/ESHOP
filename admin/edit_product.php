@@ -52,7 +52,7 @@
     <aside id="admin_sidebar" class="col-md-4">     
         <div class="form-group">
             <input type="submit" name="update" class="btn btn-primary btn-lg" value="更新">
-            <input type="submit" name="cancel" class="btn btn-warning btn-lg" value="取消">
+            <a href="index.php?products&p=0" class="btn btn-warning btn-lg">取消</a>
         </div>
 
         <!-- Product Categories-->

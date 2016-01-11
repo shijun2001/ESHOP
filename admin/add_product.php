@@ -32,7 +32,7 @@
     <aside id="admin_sidebar" class="col-md-4">     
         <div class="form-group">
             <input type="submit" name="publish" class="btn btn-primary btn-lg" value="送信">
-            <input type="submit" name="cancel" class="btn btn-warning btn-lg" value="取消">
+            <a href="index.php" class="btn btn-warning btn-lg">取消</a>
         </div>
 
         <!-- Product Categories-->
