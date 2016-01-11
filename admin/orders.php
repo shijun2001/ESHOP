@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <div class="row">
         <h1 class="page-header">
-           すべての注文
+           <i class="fa fa-fw fa-credit-card"></i>すべての注文
         </h1>
         <h4 class="bg-success"><?php display_message(); ?></h4>
     </div>
@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th>注文ID</th>
-                    <th>金額</th>
+                    <th>注文量</th>
                     <th>トランザクション</th>
                     <th>通貨</th>
                     <th>状態</th>

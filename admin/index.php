@@ -3,10 +3,10 @@
 
 
 <?php
-    /*if(!isset($_SESSION['nickname'])){
+    if(!isset($_SESSION['nickname'])){
         set_message("ログインしてください!");
         redirect("../login.php");
-    }*/
+    }
 ?>
 
 
@@ -18,7 +18,7 @@
 
 			/*Under Chrome the root is 'Eshop', but under Firefox it's 'eshop'.*/                               
             if(strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/" || strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/index.php"){
-                include("../back/admin_content.php");
+                include("admin_content.php");
             }
             
             if(isset($_GET['orders'])){

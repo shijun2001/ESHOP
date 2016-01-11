@@ -5,7 +5,7 @@
 	        <footer>
 	            <div class="row">
 	                <div class="col-lg-6">
-	                    &copy; 2015 By Shi Jun. <a><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>&nbsp; All Rights Reserved.
+	                    &copy; 2015 By Shi Jun. <a href="https://github.com/shijun2001"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>&nbsp; All Rights Reserved.
 	                </div>
 	                <div class="col-lg-6">
 	                    <a href="https://www.facebook.com/"><i class="fa fa-fw fa-facebook-square fa-3x"></i></a>

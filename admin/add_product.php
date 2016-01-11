@@ -1,6 +1,6 @@
 <?php add_products(); ?>
 <h1 class="page-header">
-    商品を追加
+    <i class="fa fa-fw fa-plus-square"></i>商品を追加
 </h1>
 
 <form action="" method="POST" enctype="multipart/form-data">
@@ -12,7 +12,7 @@
 
         <div class="form-group">
             <label for="product-title">商品紹介</label>
-            <textarea name="product_description" cols="30" rows="10" class="form-control"></textarea>
+            <textarea name="product_description" cols="30" rows="6" class="form-control"></textarea>
         </div>
 
         <div class="form-group">
@@ -22,7 +22,7 @@
 
         <div class="form-group row">
             <div class="col-xs-3">
-                <label for="product-price">商品価格（日本円）</label>
+                <label for="product-price">商品価格(JPY)</label>
                 <input type="number" name="product_price" class="form-control" size="60">
             </div>
         </div>
@@ -39,14 +39,14 @@
         <div class="form-group">
             <label for="product-title">商品カテゴリー</label>
             <select name="product_category_id" class="form-control">
-                <option value="">Select Categories</option>
+                <option value="">カテゴリー選択</option>
                 <?php show_categories_add_product_page(); ?>
             </select>
         </div>
 
         <!-- Product Brands-->
         <div class="form-group">
-            <label for="product-title">商品数量</label>
+            <label for="product-title">商品在庫数量</label>
             <input type="number" name="product_quantity" class="form-control">
         </div>
 

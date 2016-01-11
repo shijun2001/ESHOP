@@ -59,6 +59,14 @@
                     </td>
 				</tr>
 			</table>
+			<p>
+				<a href="thank_you.php?tx=000000001&amt=1&st=JPA&cc=Completed">&nbsp;&nbsp;test1&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=000000002&amt=2&st=USA&cc=Completed">&nbsp;&nbsp;test2&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=000000003&amt=3&st=CHS&cc=Completed">&nbsp;&nbsp;test3&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=000000004&amt=4&st=JPA&cc=Completed">&nbsp;&nbsp;test4&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=000000005&amt=5&st=USA&cc=Completed">&nbsp;&nbsp;test5&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=000000006&amt=6&st=CHS&cc=Completed">&nbsp;&nbsp;test6&nbsp;&nbsp;</a>
+			</p>
 		</div><!-- CART TOTALS-->
 	</div><!-- .row-->
 </div><!-- .container-->

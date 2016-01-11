@@ -1,6 +1,6 @@
 
 <h1 class="page-header">
-    すべての商品
+    <i class="fa fa-fw fa-table"></i>すべての商品
 </h1>
 <h4 class="bg-success"><?php display_message(); ?></h4>
 
@@ -9,9 +9,10 @@
         <tr>
             <th>商品ID</th>
             <th>商品名</th>
+            <th>イメージ</th>
             <th>カテゴリー</th>
             <th>価格</th>
-            <th>数量</th>
+            <th>在庫数量</th>
         </tr>
     </thead>
     <tbody>

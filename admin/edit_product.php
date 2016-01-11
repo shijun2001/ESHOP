@@ -32,7 +32,7 @@
 
         <div class="form-group">
             <label for="product-title">商品紹介</label>
-            <textarea name="product_description" cols="30" rows="10" class="form-control"><?php echo $product_description; ?></textarea>
+            <textarea name="product_description" cols="30" rows="6" class="form-control"><?php echo $product_description; ?></textarea>
         </div>
 
         <div class="form-group">
@@ -42,7 +42,7 @@
 
         <div class="form-group row">
             <div class="col-xs-3">
-                <label for="product-price">商品価格（日本円）</label>
+                <label for="product-price">商品価格(JPY)</label>
                 <input type="number" name="product_price" class="form-control" size="60" value="<?php echo $product_price; ?>">
             </div>
         </div>
@@ -66,15 +66,15 @@
 
         <!-- Product Brands-->
         <div class="form-group">
-            <label for="product-title">商品数量</label>
+            <label for="product-title">商品在庫数量</label>
             <input type="number" name="product_quantity" class="form-control" value="<?php echo $product_quantity; ?>">
         </div>
 
         <!-- Product Image -->
         <div class="form-group">
             <label for="product-title">商品イメージ</label>
-            <input type="file" name="file">
-            <img width="200" src="../<?php echo $product_image; ?>" alt="">        
+            <input type="file" name="file"><br>
+            <img width="150" src="../<?php echo $product_image; ?>" alt="">        
         </div>
 
     </aside><!--SIDEBAR-->    

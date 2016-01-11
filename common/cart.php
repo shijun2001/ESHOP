@@ -7,12 +7,16 @@
 		confirm($query);
 
 		while($row = fetch_array($query)){
-
-			if($row['product_quantity'] <> $_SESSION['product_' . $_GET['add']]){
-				$_SESSION['product_' . $_GET['add']]+=1;
-				redirect("../checkout.php");
+			if($row['product_quantity'] != 0){
+				if($row['product_quantity'] <> $_SESSION['product_' . $_GET['add']]){
+					$_SESSION['product_' . $_GET['add']]+=1;
+					redirect("../checkout.php");
+				}else{
+					set_message("申し訳ありませんが、" . "{$row['product_title']}" . "の在庫数は現在 " . $row['product_quantity'] . "件しかございません!");
+					redirect("../checkout.php");
+				}
 			}else{
-				set_message("申し訳ありませんが、" . "{$row['product_title']}" . "の在庫数は現在 " . $row['product_quantity'] . "しかありません!");
+				set_message("申し訳ありませんが、" . "{$row['product_title']}" . "は現在ございません!");
 				redirect("../checkout.php");
 			}
 		}
@@ -140,6 +144,7 @@ function process_transaction(){
 		$order_date    =   date("Y-m-d");
         $order_time    =   date("H:i:s");
         $report_date   =   date("Y-m-d");
+        $report_time   =   date("H:i:s");
 
 		$total = 0;
 		$item_quantity = 0;
@@ -172,9 +177,16 @@ function process_transaction(){
 
 						$item_quantity += $value;
 
-						$insert_report = query("INSERT INTO reports (product_id, order_id, product_title, product_price, product_quantity, report_date) 
-												VALUES ('{$id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}')");
+						$insert_report = query("INSERT INTO reports (product_id, order_id, product_title, product_price, product_quantity, report_date, report_time) 
+												VALUES ('{$id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}','{$report_time}')");
 						confirm($insert_report);
+
+
+						/*111111*/
+						$new_quantity = $row['product_quantity'] - $value;
+						$product_query = query("UPDATE products SET product_quantity = '{$new_quantity}' WHERE product_id=" . $row['product_id'] ." ");
+						confirm($product_query);
+						/*1111111*/
 
 					}
 

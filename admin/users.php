@@ -1,16 +1,15 @@
 
 <h1 class="page-header">
-    すべてのユーザー 
+    <i class="fa fa-fw fa-users"></i>すべてのユーザー 
 </h1>
 <h4 class="bg-success"><?php display_message(); ?></h4> 
-
-
 
 <div class="col-md-12">
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>ユーザーID</th>
+                <th>イメージ</th>
                 <th>ニックネーム</th>
                 <th>氏名</th>
                 <th>メール</th>

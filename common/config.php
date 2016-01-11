@@ -7,10 +7,6 @@
 
 	defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
-	defined("FRONT") ? null : define("FRONT", __DIR__ . DS . "front");
-
-	defined("BACK") ? null : define("BACK", __DIR__ . DS . "back");
-
 	defined("UPLOAD_DIRECTORY") ? null : define("UPLOAD_DIRECTORY", dirname(__DIR__) . DS . "uploads");
 
 	defined("DB_HOST") ? null : define("DB_HOST", "localhost");

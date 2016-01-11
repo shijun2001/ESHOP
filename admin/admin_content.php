@@ -1,8 +1,9 @@
+
 <!-- Page Heading -->
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            ダッシュボード <small>統計の概要</small>
+            <i class="fa fa-fw fa-dashboard"></i>ダッシュボード <small>統計の概要</small>
         </h1>
         <ol class="breadcrumb">
             <li class="active">
@@ -23,12 +24,12 @@
                         <i class="fa fa-shopping-cart fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">124</div>
-                        <div>新規受注!</div>
+                        <div class="huge"><?php conut_db("reports"); ?></div>
+                        <div>新規受注</div>
                     </div>
                 </div>
             </div>
-            <a href="index.php?orders">
+            <a href="index.php?orders&p=0">
                 <div class="panel-footer">
                     <span class="pull-left">詳細を見る</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -46,12 +47,12 @@
                         <i class="fa fa-support fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
-                        <div>商品!</div>
+                        <div class="huge"><?php conut_db("products"); ?></div>
+                        <div>商品</div>
                     </div>
                 </div>
             </div>
-            <a href="index.php?products">
+            <a href="index.php?products&p=0">
                 <div class="panel-footer">
                     <span class="pull-left">詳細を見る</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -69,12 +70,12 @@
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">12</div>
-                        <div>カテゴリー!</div>
+                        <div class="huge"><?php conut_db("categories"); ?></div>
+                        <div>カテゴリー</div>
                     </div>
                 </div>
             </div>
-            <a href="index.php?categories">
+            <a href="index.php?categories&p=0">
                 <div class="panel-footer">
                     <span class="pull-left">詳細を見る</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -93,73 +94,27 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>トランザクションパネル</h3>
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 注文パネル</h3>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>注文 #</th>
+                                <th>注文ID</th>
+                                <th>商品名</th>
+                                <th>売上高(JPY)</th>
                                 <th>注文日</th>
                                 <th>注文時間</th>
-                                <th>金額 (JPY)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>3326</td>
-                                <td>10/21/2013</td>
-                                <td>3:29 PM</td>
-                                <td>&yen;321</td>
-                            </tr>
-                            <tr>
-                                <td>3325</td>
-                                <td>10/21/2013</td>
-                                <td>3:20 PM</td>
-                                <td>&yen;234</td>
-                            </tr>
-                            <tr>
-                                <td>3324</td>
-                                <td>10/21/2013</td>
-                                <td>3:03 PM</td>
-                                <td>&yen;724</td>
-                            </tr>
-                            <tr>
-                                <td>3323</td>
-                                <td>10/21/2013</td>
-                                <td>3:00 PM</td>
-                                <td>&yen;23</td>
-                            </tr>
-                            <tr>
-                                <td>3322</td>
-                                <td>10/21/2013</td>
-                                <td>2:49 PM</td>
-                                <td>&yen;8345</td>
-                            </tr>
-                            <tr>
-                                <td>3321</td>
-                                <td>10/21/2013</td>
-                                <td>2:23 PM</td>
-                                <td>&yen;245</td>
-                            </tr>
-                            <tr>
-                                <td>3320</td>
-                                <td>10/21/2013</td>
-                                <td>2:15 PM</td>
-                                <td>&yen;5663</td>
-                            </tr>
-                            <tr>
-                                <td>3319</td>
-                                <td>10/21/2013</td>
-                                <td>2:13 PM</td>
-                                <td>&yen;943</td>
-                            </tr>
+                            <?php display_dashboard(); ?>                    
                         </tbody>
                     </table>
                 </div>
                 <div class="text-right">
-                    <a href="index.php?reports">すべてのトランザクションを見る<i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="index.php?reports&p=0">すべてのトランザクションを見る<i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

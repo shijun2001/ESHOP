@@ -34,7 +34,7 @@
                             <textarea name="message" class="form-control" placeholder="メッセージ" id="message" required data-validation-required-message="メッセージを入力してください。"></textarea>                            
                         </div>
                     </div>
-                    <div class="clearfix"></div>
+                    
                     <div class="col-lg-12 text-center">
                         <button type="submit" name="submit"　class="btn btn-primary">&nbsp;送 信&nbsp;</button>
                     </div>

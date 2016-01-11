@@ -352,9 +352,10 @@ function display_products(){
 		$product = <<<DELIMETER
 					<tr>
 			            <td>{$row['product_id']}</td>
-			            <td>{$row['product_title']}<br>
-			                <a href="index.php?edit_product&id={$row['product_id']}">
-			                <img width="100" src="../{$product_image}" alt=""></a>
+			            <td>{$row['product_title']}</td>
+			            <td>
+			            	<a href="index.php?edit_product&id={$row['product_id']}">
+			                <img width="50" src="../{$product_image}" alt=""></a>
 			            </td>
 			            <td>{$category}</td>
 			            <td>&yen;{$price}</td>
@@ -558,9 +559,8 @@ function display_users(){
 		/*<a href="index.php?edit_user&id={$row['user_id']}">*/
 		$user = <<<DELIMETER
 					<tr>
-                		<td>{$user_id}<br>
-							<img width="100" src="../{$user_photo}" alt=""></a>
-                		</td>
+                		<td>{$user_id}</td>
+               			<td><img width="30" src="../{$user_photo}" alt=""></td>
                			<td>{$nickname}</td>
                			<td>{$shimei}</td>
                			<td>{$email }</td>               			
@@ -640,13 +640,16 @@ DELIMETER;
 
 
 /******** Reports in Admin ********/
+function display_reports(){
+	$page = $_GET['p'];
+	$pagesize = 5;
+	$command = "reports";
 
-function get_reports(){
-	$query = query("SELECT * FROM reports");
+	$query = query("SELECT * FROM reports LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
-	/*$date = date("Y/m/d") . "-" . date('G:i:s');*/
 
 	while($row = fetch_array($query)){
+		$amount = number_format($row['product_price'] * $row['product_quantity']);
 		$price = number_format($row['product_price']);
 		$report = <<<DELIMETER
 					<tr>
@@ -656,7 +659,9 @@ function get_reports(){
 			            <td>{$row['product_title']}</td>
 			            <td>&yen;{$price}</td>
 			            <td>{$row['product_quantity']}</td>
-			            <td>{date}</td>		            
+			            <td>&yen;{$amount}</td>
+			            <td>{$row['report_date']}</td>		            
+			            <td>{$row['report_time']}</td>		            
 			            <td>
 				            <a class="btn btn-danger" href="delete_report.php?id={$row['report_id']}">
 				            <span class='glyphicon glyphicon-remove'></span></a>
@@ -665,15 +670,37 @@ function get_reports(){
 DELIMETER;
 		echo $report;
 	}
+	pages($page,$pagesize,$command);
 }
 
+/******** Dashboard in Admin ********/
+function conut_db($result){
+	$query = query("SELECT * FROM ". $result ." ");
+	confirm($query);
+	$rows = mysqli_num_rows($query);
+	echo $rows;
+}
 
+function display_dashboard(){
+	$query = query("SELECT * FROM reports ORDER BY report_id desc LIMIT 10");
+	confirm($query);
 
+	while($row = fetch_array($query)){		
+		$amount = $row['product_price'] * $row['product_quantity'];
+		$price = number_format($amount);
+		$report = <<<DELIMETER
+					<tr>
+			            <td>{$row['order_id']}</td>
+			            <td>{$row['product_title']}</td>
+			            <td>&yen;{$price}</td>
+			            <td>{$row['report_date']}</td>		            
+			            <td>{$row['report_time']}</td>
+			        </tr>
+DELIMETER;
+		echo $report;
+	}
 
-
-
-
-
+}
 
 
 
