@@ -22,7 +22,7 @@
 
         <div class="form-group row">
             <div class="col-xs-3">
-                <label for="product-price">商品価格(JPY)</label>
+                <label for="product-price">商品売価(JPY)</label>
                 <input type="number" name="product_price" class="form-control" size="60">
             </div>
         </div>

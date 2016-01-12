@@ -10,7 +10,7 @@
             <th>商品ID</th>
             <th>注文ID</th>
             <th>商品名</th>
-            <th>価格</th>
+            <th>売価</th>
             <th>数量</th>
             <th>売上高</th>            
             <th>注文日</th>

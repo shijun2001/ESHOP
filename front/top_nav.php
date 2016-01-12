@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.php">XXX Eショップ</a>        
+        <a class="navbar-brand" href="index.php">簡単小舗</a>        
     </div>
 
 

@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
 		
 	</body>
 

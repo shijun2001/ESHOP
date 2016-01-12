@@ -117,23 +117,25 @@ DELIMETER;
 }
 
 function show_paypal(){
+	if(isset($_SESSION['nickname']) && $_SESSION['nickname'] != ""){
 
-	if(isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1){
+		if(isset($_SESSION['item_quantity']) && $_SESSION['item_quantity'] >= 1){
 
-		$paypal_button = <<<DELIMETER
-		            <input type="image" name="upload" border="0"
-	                    src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
-	                    alt="PayPal - The safer, easier way to pay online">
+			$paypal_button = <<<DELIMETER
+			            <input type="image" name="upload" border="0"
+		                    src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+		                    alt="PayPal - The safer, easier way to pay online">
 
 DELIMETER;
-
-		return $paypal_button;
+			return $paypal_button;
+		}
+	}else{
+		echo "※注意: お支払いの前にログインしてください!";
 	}
 }
 
 function process_transaction(){
-
-	global $conn;
+	global $conn;	
 
 	if(isset($_GET['tx'])){
 		$amount = $_GET['amt'];
@@ -149,6 +151,8 @@ function process_transaction(){
 		$total = 0;
 		$item_quantity = 0;
 		$price = 0;
+		
+	    $buyer = $_SESSION['nickname']; 	    
 
 		foreach($_SESSION as $name => $value){
 			if($value > 0){
@@ -158,8 +162,8 @@ function process_transaction(){
 					$id = substr($name, 8, $length);
 
 
-					$send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency, order_date, order_time) 
-										VALUES ('{$amount}','{$transaction}','{$status}','{$currency}','{$order_date}','{$order_time}')");
+					$send_order = query("INSERT INTO orders (order_amount, order_transaction, order_status, order_currency, order_date, order_time, buyer_name) 
+										VALUES ('{$amount}','{$transaction}','{$status}','{$currency}','{$order_date}','{$order_time}','{$buyer}')");
 					$last_id = last_id();
 					confirm($send_order);
 
@@ -177,17 +181,15 @@ function process_transaction(){
 
 						$item_quantity += $value;
 
-						$insert_report = query("INSERT INTO reports (product_id, order_id, product_title, product_price, product_quantity, report_date, report_time) 
-												VALUES ('{$id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}','{$report_time}')");
+						$insert_report = query("INSERT INTO reports (product_id, order_id, product_title, product_price, product_quantity, report_date, report_time, buyer_name) 
+												VALUES ('{$id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}','{$report_time}','{$buyer}')");
 						confirm($insert_report);
 
 
-						/*111111*/
+						/*商品数量更新*/
 						$new_quantity = $row['product_quantity'] - $value;
 						$product_query = query("UPDATE products SET product_quantity = '{$new_quantity}' WHERE product_id=" . $row['product_id'] ." ");
 						confirm($product_query);
-						/*1111111*/
-
 					}
 
 					number_format($total += $product_sub);
@@ -195,7 +197,7 @@ function process_transaction(){
 				}
 			}
 		}
-		session_destroy();
+		session_destroy();/*---------------------------削除した方がいい---------------------------------*/
 	}else{
 		redirect("../index.php");
 	}

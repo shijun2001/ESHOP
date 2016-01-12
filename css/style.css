@@ -138,3 +138,24 @@ form .birth {
 .birth-label {
     margin-right: 20px;
 }
+
+
+
+/* index page side nav float */
+#box {
+    position:relative;
+    width:200px;
+    margin-right: 50px;
+}
+
+.div1 {
+    width:200px;
+}
+
+.div2 {
+    margin-top: 70px;
+    position:fixed;
+    _position:absolute;
+    top:0;
+    z-index:250;
+}

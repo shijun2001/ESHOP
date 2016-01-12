@@ -106,6 +106,7 @@
                                 <th>売上高(JPY)</th>
                                 <th>注文日</th>
                                 <th>注文時間</th>
+                                <th>注文者</th>
                             </tr>
                         </thead>
                         <tbody>

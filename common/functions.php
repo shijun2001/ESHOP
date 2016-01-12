@@ -152,7 +152,7 @@ function get_products_in_shop_page(){
 		$product = <<<DELIMETER
 					<div class="col-md-3 col-sm-6 hero-feature">
 		                <div class="thumbnail">
-		                    <img src="{$product_image}" alt="">
+		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -695,6 +695,7 @@ function display_dashboard(){
 			            <td>&yen;{$price}</td>
 			            <td>{$row['report_date']}</td>		            
 			            <td>{$row['report_time']}</td>
+			            <td>{$row['buyer_name']}</td>			            
 			        </tr>
 DELIMETER;
 		echo $report;

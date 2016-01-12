@@ -22,9 +22,14 @@
 			<div class="col-md-5">
 				<div class="thumbnail"> 
 					<div class="caption-full">
-				        <h4><a href="#"><?php echo $row['product_title']; ?></a></h4>
+						<br>
+				        <h3>
+					        <?php echo $row['product_title']; ?>
+				        </h3>
 				        <hr>
-				        <h4 class=""><?php echo "&yen;".number_format($row['product_price']); ?></h4>
+				        <h4 class="">&nbsp;
+				        	<?php echo "価格: &yen;".number_format($row['product_price']); ?>
+				        </h4>
 				    	<div class="ratings">     
 					        <p>
 					            <span class="glyphicon glyphicon-star"></span>
@@ -58,7 +63,12 @@
 					<!-- Tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="home">
-						<p><?php echo $row['product_title']; ?></p>           
+						<br>
+						<p>							 
+							<?php 
+								echo "商品番号: " . $row['product_id'] . "&nbsp;&nbsp;&nbsp;&nbsp;" . "商品名: " . $row['product_title']; 
+							?>
+						</p>           
 					    <p><?php echo $row['product_description']; ?></p>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="profile">
@@ -96,7 +106,7 @@
 
 						<div class="col-md-6">
     						<h3>レビュー</h3>
-							<form action="" class="form-inline">
+							<form action="#" class="form-inline">
 								<div class="form-group addreview bottom-space">
 						            <label for="">&nbsp;名&nbsp;&nbsp;&nbsp;前&nbsp;&nbsp;:</label>
 						            <input type="text" class="form-control" >
@@ -114,7 +124,7 @@
 						        </div>
     							<br>            
 					            <div class="form-group">
-					            	<textarea name="" id="" cols="60" rows="10" class="form-control"></textarea>
+					            	<textarea name="review" id="review" cols="60" rows="10" class="form-control"></textarea>
 					            </div>
     							<br><br>
 					            <div class="form-group">
