@@ -6,6 +6,9 @@
 <div class="container">
 	<header>
         <h1 class="text-center">ログイン</h1>
+        <div class="front-logo">                                
+            <span class='fa fa-user fa-5x'></span>
+        </div>
         <h4 class="text-center bg-warning"><?php display_message(); ?></h4>
     	<div class="col-sm-6 col-sm-offset-3">         
         	<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
@@ -28,7 +31,7 @@
                         <input type="submit" name="submit" value="サインイン" class="btn btn-primary">
             		</div>
                     <div class="col-xs-3">
-                        <a href="entry.php" class="btn">新規登録</a>
+                        <a href="entry.php" class="btn"><u>新規登録</u></a>
                     </div>
             	</div>
         	</form>

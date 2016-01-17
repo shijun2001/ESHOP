@@ -6,7 +6,7 @@
 <div class="container">
     <!-- Header -->
     <header>
-        <h1>ショップ</h1>
+        <h1><i class="fa fa-fw fa-archive fa-2x"></i>ショップ</h1>
     </header>
     <hr>
 

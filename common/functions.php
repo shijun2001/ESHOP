@@ -64,7 +64,8 @@ function last_id(){
 //---------------- Front end Functions ------------------//
 /******** Get Products ********/
 function get_products(){
-	$query = query("SELECT * FROM products");
+	$pagesize = 11;
+	$query = query("SELECT * FROM products ORDER BY product_id asc LIMIT " . $pagesize);
 	confirm($query);
 	$price = 0;
 
@@ -73,7 +74,7 @@ function get_products(){
 		$product_image = display_image($row['product_image']);
 
 		$product = <<<DELIMETER
-					<div class="col-sm-4 col-lg-4 col-md-4">
+					<div class="col-sm-6 col-lg-4 col-md-6">
 	                    <div class="thumbnail">
 	                        <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 	                        <div class="caption">
@@ -118,14 +119,21 @@ function get_products_in_cat_page(){
 
 	while($row = fetch_array($query)){
 		$product_image = display_image($row['product_image']);
+		$str_len = 80;
+
+		if(strlen($row['short_desc']) > $str_len){
+			$short_desc = mb_strcut($row['short_desc'], 0, $str_len, 'utf-8') . "...";
+		}else{
+			$short_desc = $row['short_desc'];
+		}
 
 		$product = <<<DELIMETER
-					<div class="col-md-3 col-sm-6 hero-feature">
+					<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 		                <div class="thumbnail">
 		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
-		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+		                        <p>{$short_desc}</p>
 		                        <p>
 		                            <a href="./common/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
 		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
@@ -146,16 +154,22 @@ function get_products_in_shop_page(){
 	confirm($query);
 
 	while($row = fetch_array($query)){
-
 		$product_image = display_image($row['product_image']);
+		$str_len = 80;
+
+		if(strlen($row['short_desc']) > $str_len){
+			$short_desc = mb_strcut($row['short_desc'], 0, $str_len, 'utf-8') . "...";
+		}else{
+			$short_desc = $row['short_desc'];
+		}
 
 		$product = <<<DELIMETER
-					<div class="col-md-3 col-sm-6 hero-feature">
+					<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 		                <div class="thumbnail">
 		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
-		                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+		                        <p>{$short_desc}</p>
 		                        <p>
 		                            <a href="./common/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
 		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
@@ -186,7 +200,7 @@ function login_user(){
 			$row = fetch_array($query);
 			$nickname = $row['nickname'];
 			$_SESSION['nickname'] = $nickname;
-			redirect("admin");
+			redirect("index.php");
 		}
 		db_free_close($query);
 	}	
@@ -195,7 +209,6 @@ function login_user(){
 /******** Contact Send Message ********/
 function send_message(){
 	if(isset($_POST['submit'])){
-
 		$to			=	"murenkakashu@yahoo.co.jp";
 		$from_name	=	$_POST['name'];
 		$email		=	$_POST['email'];
@@ -215,7 +228,6 @@ function send_message(){
 		}
 	}
 }
-
 
 
 
@@ -682,7 +694,8 @@ function conut_db($result){
 }
 
 function display_dashboard(){
-	$query = query("SELECT * FROM reports ORDER BY report_id desc LIMIT 10");
+	$pagesize = 10;
+	$query = query("SELECT * FROM reports ORDER BY report_id desc LIMIT " . $pagesize);
 	confirm($query);
 
 	while($row = fetch_array($query)){		

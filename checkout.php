@@ -7,7 +7,7 @@
 
 	<!-- row --> 
 	<div class="row">
-		<h1>チェックアウト</h1>
+		<h1><i class="fa fa-fw fa-shopping-cart fa-2x"></i>チェックアウト</h1>
 		<h4 class="text-center bg-danger"><?php display_message(); ?></h4>
 		<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 			<input type="hidden" name="charset" value="utf-8">
@@ -60,12 +60,12 @@
 				</tr>
 			</table>
 			<p>
-				<a href="thank_you.php?tx=000000001&amt=1&st=JPA&cc=Completed">&nbsp;&nbsp;test1&nbsp;&nbsp;</a>
-				<a href="thank_you.php?tx=000000002&amt=2&st=USA&cc=Completed">&nbsp;&nbsp;test2&nbsp;&nbsp;</a>
-				<a href="thank_you.php?tx=000000003&amt=3&st=CHS&cc=Completed">&nbsp;&nbsp;test3&nbsp;&nbsp;</a>
-				<a href="thank_you.php?tx=000000004&amt=4&st=JPA&cc=Completed">&nbsp;&nbsp;test4&nbsp;&nbsp;</a>
-				<a href="thank_you.php?tx=000000005&amt=5&st=USA&cc=Completed">&nbsp;&nbsp;test5&nbsp;&nbsp;</a>
-				<a href="thank_you.php?tx=000000006&amt=6&st=CHS&cc=Completed">&nbsp;&nbsp;test6&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=79E69189HK523625W&amt=1&st=JPY&cc=Completed">&nbsp;&nbsp;test1&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=49E69222HK523644K&amt=2&st=USA&cc=Completed">&nbsp;&nbsp;test2&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=47E69189HK565615G&amt=3&st=CHS&cc=Completed">&nbsp;&nbsp;test3&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=81E69449HK523678K&amt=4&st=JPY&cc=Completed">&nbsp;&nbsp;test4&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=65E65789HK476626B&amt=5&st=USA&cc=Completed">&nbsp;&nbsp;test5&nbsp;&nbsp;</a>
+				<a href="thank_you.php?tx=21E56789HK666453R&amt=6&st=CHS&cc=Completed">&nbsp;&nbsp;test6&nbsp;&nbsp;</a>
 			</p>
 		</div><!-- CART TOTALS-->
 	</div><!-- .row-->

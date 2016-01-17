@@ -16,8 +16,12 @@
         $birth_mon      =   escape_string($_POST['birth_mon']);
         $birth_day      =   escape_string($_POST['birth_day']);
         $sex            =   escape_string($_POST['sex']);
+        $user_photo             =   escape_string($_FILES['file']['name']);
+        $image_temp_location    =   stripslashes(escape_string($_FILES['file']['tmp_name']));
         $create_date    =   date("Y-m-d");
         $create_time    =   date("H:i:s");
+
+        move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY . DS . $user_photo);
 
         // Nicknameチェック------------------------------------------------------------
         // ①半角英数字
@@ -186,7 +190,8 @@
                     <div class="radio col-sm-9">
                        <label>
                           <input type="radio" name="sex" value="1" %s>男
-                       </label>                    
+                       </label>
+                       &nbsp;&nbsp;&nbsp;                   
                        <label>
                           <input type="radio" name="sex" value="2" %s>女
                        </label>
@@ -194,11 +199,21 @@
                 </div>
 
                 <div class="form-group bottom-space">
+                    <label class="col-sm-3 control-label" for="user_photo">イメージ:</label>
+                    <div class="col-sm-9">
+                        <input type="file" name="file">
+                    </div>       
+                </div>
+
+                <div class="form-group bottom-space">
                     <div class="col-xs-3 col-xs-offset-3">
                         <input type="submit" name="submit" value="サインイン" class="btn btn-primary">
                     </div>
                     <div class="col-xs-3">
-                        <a href="index.php" class="btn">キャンセル</a>
+                        <a href="login.php" class="btn"><u>ログイン</u></a>
+                    </div>
+                    <div class="col-xs-3">
+                        <a href="index.php" class="btn"><u>キャンセル</u></a>
                     </div>
                 </div>
             </form>
@@ -245,6 +260,7 @@
                                         birth_mon,
                                         birth_day,
                                         sex,
+                                        user_photo,
                                         create_date,
                                         create_time
                                     ) 
@@ -260,6 +276,7 @@
                                         '{$_POST['birth_mon']}',
                                         '{$_POST['birth_day']}',
                                         '{$en_sex}',
+                                        '{$user_photo}',
                                         '{$create_date}',
                                         '{$create_time}'                                      
                                     ) "

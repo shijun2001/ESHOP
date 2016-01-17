@@ -7,12 +7,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h2 class="section-heading">コンタクト</h2>
-            <h3 class="section-subheading">
+            <h1 class="section-heading"><i class="fa fa-fw fa-comments-o fa-2x"></i>コンタクト</h1>
+            <h4 class="section-subheading">
                 <?php display_message(); ?>
-            </h3> 
+            </h4> 
         </div>
     </div>
+    <br>
     <div class="row">
         <div class="col-lg-12">
             <form name="sentMessage" id="contactForm" method="post">

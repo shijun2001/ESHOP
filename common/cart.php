@@ -130,7 +130,7 @@ DELIMETER;
 			return $paypal_button;
 		}
 	}else{
-		echo "※注意: お支払いの前にログインしてください!";
+		echo "<p class='text-danger'>※注意: お支払いの前に<a href='login.php'><u>ログイン</u></a>してください!</p>";
 	}
 }
 
@@ -197,7 +197,9 @@ function process_transaction(){
 				}
 			}
 		}
-		session_destroy();/*---------------------------削除した方がいい---------------------------------*/
+		session_destroy();//*---------------------------削除した方がいい---------------------------------
+		session_start();
+		$_SESSION['nickname'] = $buyer;
 	}else{
 		redirect("../index.php");
 	}

@@ -10,7 +10,6 @@ body {
 }
 
 /* Top Navigation */
-
 .top-nav {
     padding: 0 15px;
 }
@@ -94,7 +93,7 @@ ul.alert-dropdown {
 .caption {
     /* height: 130px;
     overflow: hidden; */
-    height: 160px;
+    height: 165px;
 }
 
 .caption h4 {
@@ -139,23 +138,73 @@ form .birth {
     margin-right: 20px;
 }
 
-
-
-/* index page side nav float */
-#box {
-    position:relative;
-    width:200px;
-    margin-right: 50px;
+.front-logo {
+    text-align: center;
 }
 
-.div1 {
-    width:200px;
+.front-toggle {
+  margin: 0;
+  padding: 0;
 }
 
-.div2 {
-    margin-top: 70px;
-    position:fixed;
-    _position:absolute;
-    top:0;
-    z-index:250;
+ .none {
+  color: #fff;
+ }
+
+
+/*Back to top*/
+#toTop{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+
+/*Hidding side nav*/
+#sidebar-wrapper {
+  top: 52px;
+  left: -200px;
+  width: 200px;
+  background-color: #5677fc;
+  color: white;
+  position: fixed;
+  height: 100%;
+  z-index: 1;
+}
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  width: 250px;
+  list-style: none;
+}
+.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 50px;
+}
+.sidebar-nav li a {
+  color: white;
+  display: block;
+  text-decoration: none;
+}
+.sidebar-nav li a:hover {
+  background: rgba(255,255,255,0.25);
+  color: white;
+  text-decoration: none;
+}
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+  text-decoration: none;
+}
+#sidebar-wrapper.sidebar-toggle {
+  transition: all 0.3s ease-out;
+  margin-left: -200px;
+}
+@media (min-width: 768px) {
+  #sidebar-wrapper.sidebar-toggle {
+    transition: 0s;
+    left: 200px;
+  }
 }
