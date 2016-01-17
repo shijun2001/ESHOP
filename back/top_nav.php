@@ -9,7 +9,7 @@
     <a class="navbar-brand" href="index.php"><i class="fa fa-fw fa-desktop"></i>アドミン</a>
     <a class="navbar-brand" href="../index.php"><i class="fa fa-fw fa-home"></i>ホームページ</a>
     <a class="navbar-brand" href="../shop.php"><i class="fa fa-fw fa-archive"></i>ショップ</a>
-    <a class="navbar-brand" href="../checkout.php"><i class="fa fa-fw fa-shopping-cart"></i>チェックアウト</a>
+    <a class="navbar-brand" href="../checkout.php"><i class="fa fa-fw fa-shopping-cart"></i>カート</a>
     <a class="navbar-brand" href="../contact.php"><i class="fa fa-fw fa-comments-o"></i>コンタクト</a>
 </div>
 

@@ -65,7 +65,7 @@ function last_id(){
 /******** Get Products ********/
 function get_products(){
 	$pagesize = 11;
-	$query = query("SELECT * FROM products ORDER BY product_id asc LIMIT " . $pagesize);
+	$query = query("SELECT * FROM products WHERE product_quantity <> 0 ORDER BY product_id asc LIMIT " . $pagesize);
 	confirm($query);
 	$price = 0;
 
@@ -85,6 +85,7 @@ function get_products(){
 	                            	でこのオンラインストアのアイテムのように多くの情報を参照してください。
 	                            </p>
 	                        	<a class="btn btn-primary" target="_blank" href="./common/cart.php?add={$row['product_id']}">カートに入れる</a>
+	                        	<a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
 	                        </div>
 
 	                        
@@ -127,6 +128,13 @@ function get_products_in_cat_page(){
 			$short_desc = $row['short_desc'];
 		}
 
+		if($row['product_quantity'] == 0){
+			$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";		                            ;
+		}else{
+			$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a>
+		                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
+		}
+
 		$product = <<<DELIMETER
 					<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 		                <div class="thumbnail">
@@ -135,8 +143,7 @@ function get_products_in_cat_page(){
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>{$short_desc}</p>
 		                        <p>
-		                            <a href="./common/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
-		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
+		                            {$display_button}
 		                        </p>
 		                    </div>
 		                </div>
@@ -148,9 +155,23 @@ DELIMETER;
 	db_free_close($query);
 }
 
+/******** Search in all page ********/
+function search(){	
+	if(isset($_POST['search'])){
+		$search = escape_string($_POST['search']);
+		$_SESSION['search'] = $search;	
+		if(strtolower($_SERVER['REQUEST_URI']) <> "/eshop/shop.php"){	
+			redirect("shop.php");
+		}
+	}
+}
+
 /******** Get Products in Shop Page ********/
 function get_products_in_shop_page(){
-	$query = query("SELECT * FROM products");
+	if(isset($_SESSION['search'])){
+	$search = escape_string($_SESSION['search']);
+
+	$query = query("SELECT * FROM products WHERE product_id LIKE '%{$search}%' OR product_title LIKE '%{$search}%'");
 	confirm($query);
 
 	while($row = fetch_array($query)){
@@ -163,6 +184,13 @@ function get_products_in_shop_page(){
 			$short_desc = $row['short_desc'];
 		}
 
+		if($row['product_quantity'] == 0){
+			$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";		                            ;
+		}else{
+			$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a>
+		                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
+		}
+
 		$product = <<<DELIMETER
 					<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 		                <div class="thumbnail">
@@ -171,18 +199,59 @@ function get_products_in_shop_page(){
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
 		                        <p>{$short_desc}</p>
 		                        <p>
-		                            <a href="./common/cart.php?add={$row['product_id']}" class="btn btn-primary">カートに入れる</a>
-		                            <a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
+		                            {$display_button}
 		                        </p>
 		                    </div>
 		                </div>
 		            </div>
 DELIMETER;
-		
+			
 		echo $product;
 	}
-	db_free_close($query);
+	db_free_close($query);	
+	unset($_SESSION['search']); 
+	}else{
+		$query = query("SELECT * FROM products");
+		confirm($query);
+
+		while($row = fetch_array($query)){
+			$product_image = display_image($row['product_image']);
+			$str_len = 80;
+
+			if(strlen($row['short_desc']) > $str_len){
+				$short_desc = mb_strcut($row['short_desc'], 0, $str_len, 'utf-8') . "...";
+			}else{
+				$short_desc = $row['short_desc'];
+			}
+
+			if($row['product_quantity'] == 0){
+				$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";		                            ;
+			}else{
+				$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a>
+			                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
+			}
+
+			$product = <<<DELIMETER
+						<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
+			                <div class="thumbnail">
+			                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
+			                    <div class="caption">
+			                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
+			                        <p>{$short_desc}</p>
+			                        <p>
+			                            {$display_button}
+			                        </p>
+			                    </div>
+			                </div>
+			            </div>
+DELIMETER;
+			
+			echo $product;
+		}
+		db_free_close($query);	
+	}	
 }
+
 
 /******** User Login ********/
 function login_user(){
@@ -298,8 +367,8 @@ function pages($page,$pagesize,$command){
 		}
 
 		$pagebanner .= "
-								<li><a href='#'>共{$total_pages}页</a></li>
-				                <li><a href='#'>第{$next}页</a></li>	
+								<li><a href='#'>共{$total_pages}頁</a></li>
+				                <li><a href='#'>第{$next}頁</a></li>	
 		                	</ul>
 				        </nav>";
 

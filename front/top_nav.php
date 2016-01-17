@@ -13,6 +13,7 @@
 
     <!-- Top navagation -->
     <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+
         <ul class="nav navbar-nav">
             <li>
                 <a href="shop.php"><i class="fa fa-fw fa-archive"></i>ショップ</a>
@@ -29,7 +30,7 @@
                 }          
             ?>            
             <li>
-                <a href="checkout.php"><i class="fa fa-fw fa-shopping-cart"></i>チェックアウト</a>
+                <a href="checkout.php"><i class="fa fa-fw fa-shopping-cart"></i>カート</a>
             </li>
             <li>
                 <a href="contact.php"><i class="fa fa-fw fa-comments-o"></i>コンタクト</a>
@@ -65,7 +66,10 @@
                 </ul>
             </li>
         </ul>
-        
+        <form class="navbar-form navbar-right" method="post">
+            <input type="text" name="search" id="search" class="form-control" placeholder="サーチ...">
+        </form>
+<?php search(); ?>
     </div><!-- .collapse -->
 
 </div><!-- .container -->
