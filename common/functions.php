@@ -86,9 +86,7 @@ function get_products(){
 	                            </p>
 	                        	<a class="btn btn-primary" target="_blank" href="./common/cart.php?add={$row['product_id']}">カートに入れる</a>
 	                        	<a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
-	                        </div>
-
-	                        
+	                        </div>	                        
 	                    </div>
 	                </div>
 DELIMETER;

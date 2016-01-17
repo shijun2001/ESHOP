@@ -1,13 +1,13 @@
 <?php add_category(); ?>
-
-<h1 class="page-header">
-    <i class="fa fa-fw fa-cubes"></i>すべてのカテゴリー
-</h1>
-<h4 class="bg-success"><?php display_message(); ?></h4>  
-
+<div class="col-md-12">
+    <div class="row">
+        <h1 class="page-header">
+            <i class="fa fa-fw fa-cubes"></i>すべてのカテゴリー
+        </h1>
+        <h4 class="bg-success"><?php display_message(); ?></h4>  
+    </div>
 
     <div class="col-md-4">
-
         <form action="" method="post">    
             <div class="form-group">
                 <label for="category-title">カテゴリータイトル</label>
@@ -33,3 +33,4 @@
             </tbody>
         </table>
     </div>
+</div><!-- col-md-12 -->

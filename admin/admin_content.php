@@ -97,8 +97,8 @@
                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 注文パネル</h3>
             </div>
             <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
+                <div class="col-md-12">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>注文ID</th>

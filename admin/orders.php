@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <div class="row">
         <h1 class="page-header">
-           <i class="fa fa-fw fa-credit-card"></i>すべての注文
+            <i class="fa fa-fw fa-credit-card"></i>すべての注文
         </h1>
         <h4 class="bg-success"><?php display_message(); ?></h4>
     </div>

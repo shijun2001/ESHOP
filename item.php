@@ -108,11 +108,11 @@
     						<h3>レビュー</h3>
 							<form action="#" class="form-inline">
 								<div class="form-group addreview bottom-space">
-						            <label for="">&nbsp;名&nbsp;&nbsp;&nbsp;前&nbsp;&nbsp;:</label>
+						            <label for="">名&nbsp;前&nbsp;:</label>
 						            <input type="text" class="form-control" >
 						        </div>
 						        <div class="form-group addreview bottom-space">
-						            <label for="">Eメール:</label>
+						            <label for="">メール:</label>
 						            <input type="test" class="form-control">
 						        </div>
 						        <div>
