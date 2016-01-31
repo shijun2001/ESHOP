@@ -1,14 +1,21 @@
 <?php require_once("../common/config.php"); ?>
-<?php include("../back/header.php"); ?>
-
 
 <?php
     if(!isset($_SESSION['nickname'])){
         set_message("ログインしてください!");
         redirect("../login.php");
     }
-?>
 
+    $nickname = $_SESSION['nickname'];
+    $query = query("SELECT * FROM users WHERE nickname = '{$nickname}'");
+    confirm($query);
+    $row = fetch_array($query);
+    if($row['competence'] == "admin"){
+        include("../back/header.php");
+    }else{
+        include("../back/usheader.php");
+    }
+?>
 
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -16,10 +23,21 @@
 
 		<?php
 
-			/*Under Chrome the root is 'Eshop', but under Firefox it's 'eshop'.*/                               
-            if(strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/" || strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/index.php"){
-                include("admin_content.php");
+            $nickname = $_SESSION['nickname'];
+            $query = query("SELECT * FROM users WHERE nickname = '{$nickname}'");
+            confirm($query);
+            $row = fetch_array($query);
+            if($row['competence'] == "admin"){
+                /*Under Chrome the root is 'Eshop', but under Firefox it's 'eshop'.*/
+                if(strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/" || strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/index.php"){
+                    include("admin_content.php");
+                }                
+            }else{
+                if(strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/" || strtolower($_SERVER['REQUEST_URI']) == "/eshop/admin/index.php"){
+                    include("us_content.php");
+                }
             }
+			
             
             if(isset($_GET['orders'])){
                 include("orders.php");
@@ -55,6 +73,14 @@
 
             if(isset($_GET['reports'])){
                 include("reports.php");
+            }
+
+            if(isset($_GET['history'])){
+                include("history.php");
+            }
+
+            if(isset($_GET['personal'])){
+                include("personal.php");
             }
 
 

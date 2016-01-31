@@ -267,7 +267,7 @@ function login_user(){
 			$row = fetch_array($query);
 			$nickname = $row['nickname'];
 			$_SESSION['nickname'] = $nickname;
-			redirect("index.php");
+			redirect("admin");
 		}
 		db_free_close($query);
 	}	
@@ -301,23 +301,24 @@ function send_message(){
 
 //---------------- Back end Functions ------------------//
 /******** Change Pages ********/
-function pages($page,$pagesize,$command){
+function pages($page,$pagesize,$db,$total_query,$command){
 		$prev = $page - 1;
 		$next = $page + 1;		
 		$showpage = 5;
 
 		/* Totle page */
-		$total_query = query("SELECT COUNT(*) FROM " . $command . " ");
+		/*$total_query = query("SELECT COUNT(*) FROM " . $command . " ");*/
 		$total_result = fetch_array($total_query);
 		$total = $total_result[0];
 		$total_pages = ceil($total/$pagesize);
-		$pagebanner = 	'<nav>
-		           			<ul class="pagination">';
 
 		/* Show pages */
 		$pageoffset = ($showpage-1)/2;
 		$start = 1;
 		$end = $total_pages;		
+		
+		$pagebanner = 	'<nav>
+		           			<ul class="pagination">';
 
 		if($page > 0){
 			$pagebanner .= "    
@@ -379,7 +380,8 @@ function pages($page,$pagesize,$command){
 function display_orders(){
 	$page = $_GET['p'];
 	$pagesize = 5;
-	$command = "orders";	
+	$db = $command = "orders";
+	$total_query = query("SELECT COUNT(*) FROM " . $db . " ");
 
 	$query = query("SELECT * FROM orders LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
@@ -403,7 +405,7 @@ DELIMETER;
 		
 		echo $orders;
 	}
-	pages($page,$pagesize,$command);
+	pages($page,$pagesize,$db,$total_query,$command);
 }
 
 
@@ -416,7 +418,8 @@ function display_image($picture){
 function display_products(){
 	$page = $_GET['p'];
 	$pagesize = 5;
-	$command = "products";	
+	$db = $command = "products";
+	$total_query = query("SELECT COUNT(*) FROM " . $db . " ");
 
 	$query = query("SELECT * FROM products LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
@@ -447,7 +450,7 @@ function display_products(){
 DELIMETER;
 		echo $product;
 	}
-	pages($page,$pagesize,$command);
+	pages($page,$pagesize,$db,$total_query,$command);
 }
 
 function show_product_category_title($product_category_id){
@@ -570,7 +573,8 @@ DELIMETER;
 function display_categories(){
 	$page = $_GET['p'];
 	$pagesize = 5;
-	$command = "categories";	
+	$db = $command = "categories";
+	$total_query = query("SELECT COUNT(*) FROM " . $db . " ");
 
 	$query = query("SELECT * FROM categories LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
@@ -590,7 +594,7 @@ function display_categories(){
 DELIMETER;
 		echo $category;
 	}
-	pages($page,$pagesize,$command);
+	pages($page,$pagesize,$db,$total_query,$command);
 }
 
 /******** Add Categories in Admin ********/
@@ -612,7 +616,8 @@ function add_category(){
 function display_users(){
 	$page = $_GET['p'];
 	$pagesize = 5;
-	$command = "users";
+	$db = $command = "users";
+	$total_query = query("SELECT COUNT(*) FROM " . $db . " ");
 
 	$user_query = query("SELECT * FROM users LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($user_query);
@@ -652,77 +657,16 @@ DELIMETER;
 		
 		echo $user;
 	}
-	pages($page,$pagesize,$command);
+	pages($page,$pagesize,$db,$total_query,$command);
 }
-
-/*function add_user(){
-	if(isset($_POST['add_user'])&&($_SESSION['error'] = "true")){
-
-		$nickname       =   escape_string($_POST['nickname']);
-        $password       =   escape_string($_POST['password']);
-        $username_shi   =   escape_string($_POST['username_shi']);
-        $username_mei   =   escape_string($_POST['username_mei']);
-        $email          =   escape_string($_POST['email']);
-        $adr            =   escape_string($_POST['adr']);
-        $tel            =   escape_string($_POST['tel']);
-        $birth_year     =   escape_string($_POST['birth_year']);
-        $birth_mon      =   escape_string($_POST['birth_mon']);
-        $birth_day      =   escape_string($_POST['birth_day']);
-        $sex            =   escape_string($_POST['sex']);
-        $user_photo		=	escape_string($_FILES['file']['name']);
-		$photo_temp		=	stripslashes(escape_string($_FILES['file']['tmp_name']));
-
-		$en_sex = "";
-		if($sex == "1"){
-			$en_sex = "男";
-		}else{
-			$en_sex = "女";
-		}
-			
-		move_uploaded_file($photo_temp, UPLOAD_DIRECTORY . DS . $user_photo);
-
-		$query = query("INSERT INTO users(
-                                        nickname,
-                                        password, 
-                                        username_shi, 
-                                        username_mei, 
-                                        email, 
-                                        adr, 
-                                        tel,
-                                        birth_year,
-                                        birth_mon,
-                                        birth_day,
-                                        sex,
-                                        user_photo
-                                    ) 
-						  VALUES(
-                                        '{$nickname}',
-                                        '{$password}', 
-                                        '{$username_shi}', 
-                                        '{$username_mei}', 
-                                        '{$email}', 
-                                        '{$adr}', 
-                                        '{$tel}',
-                                        '{$birth_year}',
-                                        '{$birth_mon}',
-                                        '{$birth_day}',
-                                        '{$sex}',
-                                        '{$user_photo}'                                    
-                                    ) "
-						);
-		confirm($query);		
-		set_message("ユーザーを追加しました!");
-		redirect("index.php?users&p=0");
-		
-	}
-}*/
 
 
 /******** Reports in Admin ********/
 function display_reports(){
 	$page = $_GET['p'];
 	$pagesize = 5;
-	$command = "reports";
+	$db = $command = "reports";
+	$total_query = query("SELECT COUNT(*) FROM " . $db . " ");
 
 	$query = query("SELECT * FROM reports LIMIT " . $page*$pagesize . "," . $pagesize);
 	confirm($query);
@@ -749,7 +693,7 @@ function display_reports(){
 DELIMETER;
 		echo $report;
 	}
-	pages($page,$pagesize,$command);
+	pages($page,$pagesize,$db,$total_query,$command);
 }
 
 /******** Dashboard in Admin ********/
@@ -780,9 +724,186 @@ function display_dashboard(){
 DELIMETER;
 		echo $report;
 	}
-
 }
 
+/******** Dashboard in User ********/
+function conut_db_user($result){
+	$nickname = $_SESSION['nickname'];
+	$query = query("SELECT * FROM {$result} WHERE buyer_name = '{$nickname}'");
+	confirm($query);
+	$rows = mysqli_num_rows($query);
+	echo $rows;
+}
+
+function display_dashboard_user(){
+	$pagesize = 5;
+	$nickname = $_SESSION['nickname'];
+	$query = query("SELECT * FROM reports WHERE buyer_name = '{$nickname}' ORDER BY report_id desc LIMIT " . $pagesize);
+	confirm($query);
+
+	while($row = fetch_array($query)){		
+		$amount = $row['product_price'] * $row['product_quantity'];
+		$price = number_format($amount);
+		$report = <<<DELIMETER
+					<tr>
+			            <td>{$row['order_id']}</td>
+			            <td>{$row['product_title']}</td>
+			            <td>&yen;{$price}</td>
+			            <td>{$row['report_date']}</td>		            
+			            <td>{$row['report_time']}</td>
+			        </tr>
+DELIMETER;
+		echo $report;
+	}
+}
+
+/******** Reports in Admin ********/
+function display_history(){
+	$nickname = $_SESSION['nickname'];
+	$page = $_GET['p'];
+	$pagesize = 5;
+	$db = "reports";
+	$command = "history";
+	$total_query = query("SELECT COUNT(*) FROM {$db} WHERE buyer_name = '{$nickname}'");
+
+	$query = query("SELECT * FROM reports WHERE buyer_name = '{$nickname}' ORDER BY report_id desc LIMIT " . $page*$pagesize . "," . $pagesize);
+	confirm($query);
+
+	while($row = fetch_array($query)){
+		$amount = number_format($row['product_price'] * $row['product_quantity']);
+		$price = number_format($row['product_price']);
+		$report = <<<DELIMETER
+					<tr>
+			            <td>{$row['report_id']}</td>
+			            <td>{$row['product_id']}</td>
+			            <td>{$row['order_id']}</td>
+			            <td>{$row['product_title']}</td>
+			            <td>&yen;{$price}</td>
+			            <td>{$row['product_quantity']}</td>
+			            <td>&yen;{$amount}</td>
+			            <td>{$row['report_date']}</td>		            
+			            <td>{$row['report_time']}</td> 
+			        </tr>
+DELIMETER;
+		echo $report;
+	}
+	pages($page,$pagesize,$db,$total_query,$command);
+}
+
+/******** Update Users in User ********/
+function update_users(){
+	if(isset($_POST['update_user'])){
+		global $upload_directory;
+		$error = "";
+		$nickname		=	$_SESSION['nickname'];
+
+        $password       =   escape_string($_POST['password']);
+        $username_shi   =   escape_string($_POST['username_shi']);
+        $username_mei   =   escape_string($_POST['username_mei']);
+        $adr            =   escape_string($_POST['adr']);
+        $tel            =   escape_string($_POST['tel']);
+        $birth_year     =   escape_string($_POST['birth_year']);
+        $birth_mon      =   escape_string($_POST['birth_mon']);
+        $birth_day      =   escape_string($_POST['birth_day']);
+        $sex            =   escape_string($_POST['sex']);
+        $user_photo             =   escape_string($_FILES['file']['name']);
+        $image_temp_location    =   stripslashes(escape_string($_FILES['file']['tmp_name']));
+
+		if(empty($user_photo)){
+			$get_pic_query = query("SELECT user_photo FROM users WHERE nickname = '{$nickname}'");
+			confirm($get_pic_query);
+
+			while($pic = fetch_array($get_pic_query)){
+				$user_photo = $pic['user_photo'];
+			}
+		}
+
+		move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY . DS . $user_photo);
+
+        // パスワードチェック----------------------------------------------------------
+        // ①半角英数記号
+        if(!mb_ereg_match('^[!-z]+$', $password)){
+            $error .= "パスワードは半角英数記号で入力してください<br>";
+        } else {
+            // ②長さが8～16文字
+            if(mb_strlen($password) < 8 || mb_strlen($password) > 16){
+                $error .= "パスワードは半角8～16文字で入力してください<br>";
+            }
+        }               
+
+        // 氏チェック------------------------------------------------------------
+        $wk_fname = mb_ereg_replace("　","", $username_shi);         // 全角ブランク削除
+        $wk_fname = mb_ereg_replace(" ","", $wk_fname);             // 半角ブランク削除
+        if($wk_fname == ""){
+            $error .= "氏を入力してください<br>";
+        }
+
+        // 名チェック------------------------------------------------------------
+        $wk_lname = mb_ereg_replace("　","", $username_mei);         // 全角ブランク削除
+        $wk_lname = mb_ereg_replace(" ","", $wk_lname);             // 半角ブランク削除
+        if($wk_lname == ""){
+            $error .= "名を入力してください<br>";
+        }        
+
+        // 住所チェック----------------------------------------------------------
+        $wk_adr = mb_ereg_replace("　","", $adr);                    // 全角ブランク削除
+        if($wk_adr == ""){
+            $error .= "住所を入力してください<br>";
+        }
+
+        // 電話チェック----------------------------------------------------------
+        // ①半角数字
+        if(!mb_ereg_match('^[0-9]+$', $tel)){
+            $error .= "電話は半角数字で入力してください（ハイフン不要）<br>";
+        } else {
+            // ②長さが9～11文字
+            if(mb_strlen($tel) < 9 || mb_strlen($tel) > 11){
+                $error .= "電話は半角数字9～11文字で入力してください<br>";
+            }
+        }
+
+        // 生年月日チェック-------------------------------------------------------
+        if(!mb_ereg_match('^[0-9]+$', $birth_year) || !mb_ereg_match('^[0-9]+$', $birth_mon) || !mb_ereg_match('^[0-9]+$', $birth_day)){
+            $error .= "生年月日を入力してください<br><br>";
+        }
+
+        // 性別チェック----------------------------------------------------------
+        $wk_sex = array("","");
+        $en_sex = "";
+        if(!isset($sex)){
+            $error .= "性別を指定してください<br>";
+        } else {
+            if($sex == "1"){
+                $wk_sex[0] = "checked";
+                $en_sex = "男";            
+            }
+            if($sex == "2"){
+                $wk_sex[1] = "checked";
+                $en_sex = "女"; 
+            }
+        }
+
+        set_message($error);
+
+        if($error == ""){
+			$send_update_query 	= query("UPDATE users SET 
+						password='{$password}',
+						username_shi='{$username_shi}',
+						username_mei='{$username_mei}',
+						adr='{$adr}',
+						tel='{$tel}',
+						birth_year='{$birth_year}',
+						birth_mon='{$birth_mon}',
+						birth_day='{$birth_day}',
+						sex='{$en_sex}',
+						user_photo='{$user_photo}' WHERE nickname = '{$nickname}'");		
+			confirm($send_update_query);
+			
+			set_message("個人情報が更新されました!");
+			/*redirect("index.php?personal");*/
+		}
+	}
+}
 
 
 ?>

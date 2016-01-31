@@ -1,6 +1,5 @@
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
-		
 
 <!-- Page Content -->
 <div class="container">
@@ -71,49 +70,48 @@
 						</p>           
 					    <p><?php echo $row['product_description']; ?></p>
 					</div>
+
+					<?php
+						$reviews = query("SELECT * FROM reviews ORDER BY review_date DESC");
+						confirm($reviews);
+					?>	
 					<div role="tabpanel" class="tab-pane" id="profile">
-							<div class="col-md-6">
+						<div class="col-md-6">
 					    	<h4>最も参考になったカスタマーレビュー</h4>
 					        <hr>
-					        <div class="row">
-					            <div class="col-md-12">
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star-empty"></span>
-					                匿名
-					                <span class="pull-right">2015/12/31</span>
-					                <p>持ち運ぶのに全く苦労しない軽さ。そして価格が安かったので購入しました。</p>
-					            </div>
+					        <div class="row" id="reviews">
+					        	<ul>
+					        		<?php while($row = mysqli_fetch_assoc($reviews)): ?>
+										<li>
+											<div class="col-md-12">
+								                <span class="glyphicon glyphicon-star"></span>
+								                <span class="glyphicon glyphicon-star"></span>
+								                <span class="glyphicon glyphicon-star"></span>
+								                <span class="glyphicon glyphicon-star"></span>
+								                <span class="glyphicon glyphicon-star-empty"></span>
+								                <?php echo $row['rename']; ?>
+								                <span class="pull-right"><?php echo $row['review_date']." ".$row['review_time']; ?></span>
+								                <p><?php echo $row['review']; ?></p>
+								            </div>
+								        </li>
+						            <?php endwhile; ?>
+						        </ul>
 					        </div>
 					        <hr>
 
-					        <div class="row">
-					            <div class="col-md-12">
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star"></span>
-					                <span class="glyphicon glyphicon-star-empty"></span>
-					                匿名
-					                <span class="pull-right">2015/12/11</span>
-					                <p>初心者に充分な性能!</p>
-					            </div>
-					        </div>
-					        <hr>
+					   
 					    </div>
 
 						<div class="col-md-6">
-    						<h3>レビュー</h3>
-							<form action="#" class="form-inline">
+    						<h3><i class="fa fa-fw fa-edit"></i>レビュー</h3>
+							<form action="#" class="form-inline" method="post">
 								<div class="form-group addreview bottom-space">
-						            <label for="">名&nbsp;前&nbsp;:</label>
-						            <input type="text" class="form-control" >
+						            <label for="review-name">名&nbsp;前&nbsp;:</label>
+						            <input type="text" class="form-control" name="review-name" placeholder="お名前" id="review-name" required data-validation-required-message="お名前を入力してください。">
 						        </div>
 						        <div class="form-group addreview bottom-space">
-						            <label for="">メール:</label>
-						            <input type="test" class="form-control">
+						            <label for="review-email">メール:</label>
+						            <input type="email" class="form-control" name="review-email" placeholder="メールアドレス" id="review-email" required data-validation-required-message="メールアドレスを入力してください。">
 						        </div>
 						        <div>
 						            <h3>評価</h3>
@@ -124,11 +122,11 @@
 						        </div>
     							<br>            
 					            <div class="form-group">
-					            	<textarea name="review" id="review" cols="60" rows="10" class="form-control"></textarea>
+					            	<textarea name="review" id="review" cols="60" rows="10" class="form-control"  placeholder="メッセージ" required data-validation-required-message="メッセージを入力してください。"></textarea>
 					            </div>
     							<br><br>
 					            <div class="form-group">
-					                <input type="submit" class="btn btn-primary" value="送 信">
+					                <input type="submit" name="subrev" id="subrev" class="btn btn-primary" value="送 信">
 					            </div>
 							</form>
 						</div>

@@ -24,9 +24,19 @@
                             <a href="login.php"><i class="fa fa-fw fa-sign-in"></i>ログイン</a>
                          </li>'; 
                 }else{
-                    echo '<li>
+                    $nickname = $_SESSION['nickname'];
+                    $query = query("SELECT * FROM users WHERE nickname = '{$nickname}'");
+                    confirm($query);
+                    $row = fetch_array($query);
+                    if($row['competence'] == "admin"){
+                        echo '<li>
                             <a href="admin"><i class="fa fa-fw fa-desktop"></i>アドミン</a>
                          </li>';
+                    }else{
+                        echo '<li>
+                            <a href="admin"><i class="fa fa-fw fa-desktop"></i>ユーザー</a>
+                         </li>';
+                    }
                 }          
             ?>            
             <li>

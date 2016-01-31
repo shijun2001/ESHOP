@@ -10,7 +10,7 @@
             <a href="index.php?reports&p=0"><i class="fa fa-fw fa-bar-chart-o"></i> レポート</a>
         </li>
         <li>
-            <a href="index.php?products&p=0"><i class="fa fa-fw fa-table"></i> 商品</a>
+            <a href="index.php?products&p=0"><i class="fa fa-fw fa-coffee"></i> 商品</a>
         </li>
         <li>
             <a href="index.php?add_product"><i class="fa fa-fw fa-plus-square"></i> 商品を追加</a>
