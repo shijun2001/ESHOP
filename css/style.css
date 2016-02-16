@@ -1,145 +1,142 @@
 @charset "utf-8";
 
+/* ---------------------------- */
+/* format */
+/* ---------------------------- */
 * {
 	margin: 0;
 	padding: 0;
 }
 
 body {
-    padding-top: 70px;
+  padding-top: 70px;
 }
 
-/* Top Navigation */
-.top-nav {
-    padding: 0 15px;
+.btn {
+  margin-right: 5px;
 }
 
-.top-nav>li {
-    display: inline-block;
-    float: left;
+/* ---------------------------- */
+/* Main navigation */
+/* ---------------------------- */
+.navbar-inverse {
+  background-color: #000;
+  border-color: #000;
 }
 
-.top-nav>li>a {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    line-height: 20px;
-    color: #999;
+.navbar-inverse .navbar-nav li a {
+  font-size: 19px;
 }
 
-.top-nav>li>a:hover,
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
-    color: #fff;
-    background-color: #000;
+.navbar-inverse .navbar-nav li a i {
+  font-size: 22px;
 }
 
-.top-nav>.open>.dropdown-menu {
-    float: left;
-    position: absolute;
-    margin-top: 0;
-    border: 1px solid rgba(0,0,0,.15);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    background-color: #fff;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.top-nav>.open>.dropdown-menu>li>a {
-    white-space: normal;
-}
-
-ul.message-dropdown {
-    padding: 0;
-    max-height: 250px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-li.message-preview {
-    width: 275px;
-    border-bottom: 1px solid rgba(0,0,0,.15);
-}
-
-li.message-preview>a {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-
-li.message-footer {
-    margin: 5px 0;
-}
-
-ul.alert-dropdown {
-    width: 200px;
+.navbar-brand img {
+  position: absolute;
+  top:0;
 }
 
 
-
+/* ---------------------------- */
+/* Main page contents */
+/* ---------------------------- */
 .slide-image {
-    width: 100%;
+  width: 150%;
 }
 
 .carousel-holder {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .carousel-control .item {
-    border-radius: 4px;
+  border-radius: 4px;
 }
 
 .caption {
-    /* height: 130px;
-    overflow: hidden; */
-    height: 165px;
+  /* height: 130px;
+  overflow: hidden; */
+  height: 185px;
 }
 
 .caption h4 {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .thumbnail {
-    padding: 0;
+  padding: 0;
+  border: 0;
 }
 
 .thumbnail img {
-    width: 100%;
+  width: 100%;
 }
 
 .thumbnail .caption-full {
-    padding: 9px;
-    color: #333;
+  padding: 9px;
+  color: #333;
 }
 
+.thumbnail h4 {
+  font-size: 120%;
+}
+
+.thumbnail p {
+  margin-bottom: 5px;
+}
+
+/* ---------------------------- */
+/* Item page */
+/* ---------------------------- */
 .ratings {
-    padding-right: 10px;
-    padding-left: 10px;
-    color: #d17581;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: #d17581;
 }
 
-footer {
-    margin: 50px 0;
-    text-align: center;
+.item-des {
+  line-height: 1.8em;
 }
 
 
+
+
+
+/* ---------------------------- */
+/* Category page */
+/* ---------------------------- */
+.hero-spacer {
+  background-image: url(../img/long2.png);
+  background-size: cover;
+  border: 2px solid #555;
+  color: #fff;
+}
+
+#cat-intro {
+  width: 60%;
+  font-size: 120%;
+  line-height: 2em;
+  font-weight: bold;
+}
+
+
+/* ---------------------------- */
+/* Entry page */
+/* ---------------------------- */
 form .bottom-space {
-    margin: 10px;
+  margin: 10px;
 }
 
-form .birth {
-    
-    padding: 0;
+form .birth {    
+  padding: 0;
 }
 
 .birth-label {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .front-logo {
-    text-align: center;
+  text-align: center;
 }
 
 .front-toggle {
@@ -152,59 +149,49 @@ form .birth {
  }
 
 
-/*Back to top*/
-#toTop{
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    cursor: pointer;
+/* ---------------------------- */
+/* cart page */
+/* ---------------------------- */
+
+
+
+
+/* ---------------------------- */
+/* Side nav */
+/* ---------------------------- */
+@media (max-width: 768px) {
+  .main-sider {
     display: none;
-}
-
-
-/*Hidding side nav*/
-#sidebar-wrapper {
-  top: 52px;
-  left: -200px;
-  width: 200px;
-  background-color: #5677fc;
-  color: white;
-  position: fixed;
-  height: 100%;
-  z-index: 1;
-}
-.sidebar-nav {
-  position: absolute;
-  top: 0;
-  margin: 0;
-  padding: 0;
-  width: 250px;
-  list-style: none;
-}
-.sidebar-nav li {
-  text-indent: 20px;
-  line-height: 50px;
-}
-.sidebar-nav li a {
-  color: white;
-  display: block;
-  text-decoration: none;
-}
-.sidebar-nav li a:hover {
-  background: rgba(255,255,255,0.25);
-  color: white;
-  text-decoration: none;
-}
-.sidebar-nav li a:active, .sidebar-nav li a:focus {
-  text-decoration: none;
-}
-#sidebar-wrapper.sidebar-toggle {
-  transition: all 0.3s ease-out;
-  margin-left: -200px;
-}
-@media (min-width: 768px) {
-  #sidebar-wrapper.sidebar-toggle {
-    transition: 0s;
-    left: 200px;
   }
+}
+
+.lead {
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------------------------- */
+/* Footer */
+/* ---------------------------- */
+#toTop{
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: none;
+}
+
+footer {
+  margin: 50px 0;
+  text-align: center;
 }

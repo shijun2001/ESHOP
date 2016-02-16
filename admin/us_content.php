@@ -3,11 +3,11 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            <i class="fa fa-fw fa-dashboard"></i>ダッシュボード <small>統計の概要</small>
+            <i class="fa fa-fw fa-dashboard"></i>ダッシュボード
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <i class="fa fa-dashboard"></i> ダッシュボード
+                <i class="fa fa-money fa-fw"></i> 統計の概要
             </li>
         </ol>
     </div>
@@ -102,7 +102,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 注文パネル</h3>
+                <h3 class="panel-title"><i class="fa fa-fw fa-bar-chart-o"></i> 注文パネル</h3>
             </div>
             <div class="panel-body">
                 <div class="col-md-12">

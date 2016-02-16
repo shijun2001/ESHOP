@@ -47,21 +47,3 @@ $(document).ready(function() {
 });
 
 
-/*Review*/
-$(document).ready(function(){
-  $('#subrev').click(function(){
-    var rename = $('#review-name').val();
-    var reemail = $('#review-email').val();
-    var review = $('#review').val();
-  
-    //Validation
-    $.ajax({
-      type: 'POST',
-      url: '../review.php',
-      data: {rename:rename,reemail:reemail,review:review},
-      success: function(data){
-        $('#result').html(data);
-      }
-    });
-  });
-});

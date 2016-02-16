@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.php"><i class="fa fa-fw fa-home"></i>簡単小舗</a>        
+        <a class="navbar-brand" href="index.php"><img src="img/logo.png" alt="logo" height="45" /></a>        
     </div>
 
 
@@ -16,12 +16,12 @@
 
         <ul class="nav navbar-nav">
             <li>
-                <a href="shop.php"><i class="fa fa-fw fa-archive"></i>ショップ</a>
+                <a href="shop.php"><i class="fa fa-shopping-bag"></i> ショップ</a>
             </li>
             <?php
                 if(!isset($_SESSION['nickname'])){
                     echo '<li>
-                            <a href="login.php"><i class="fa fa-fw fa-sign-in"></i>ログイン</a>
+                            <a href="login.php"><i class="fa fa-fw fa-sign-in"></i> ログイン</a>
                          </li>'; 
                 }else{
                     $nickname = $_SESSION['nickname'];
@@ -30,28 +30,33 @@
                     $row = fetch_array($query);
                     if($row['competence'] == "admin"){
                         echo '<li>
-                            <a href="admin"><i class="fa fa-fw fa-desktop"></i>アドミン</a>
+                            <a href="admin"><i class="fa fa-fw fa-desktop"></i> アドミン</a>
                          </li>';
                     }else{
                         echo '<li>
-                            <a href="admin"><i class="fa fa-fw fa-desktop"></i>ユーザー</a>
+                            <a href="admin"><i class="fa fa-fw fa-desktop"></i> ユーザー</a>
                          </li>';
                     }
                 }          
             ?>            
             <li>
-                <a href="checkout.php"><i class="fa fa-fw fa-shopping-cart"></i>カート</a>
+                <a href="checkout.php"><i class="fa fa-fw fa-shopping-cart"></i> カート</a>
             </li>
             <li>
-                <a href="contact.php"><i class="fa fa-fw fa-comments-o"></i>コンタクト</a>
+                <a href="contact.php"><i class="fa fa-fw fa-comments-o"></i> コンタクト</a>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">  
                     <?php 
                         if(isset($_SESSION['nickname'])){
-                            echo $_SESSION['nickname']; 
+                            $nickname = $_SESSION['nickname'];
+                            $query = query("SELECT user_photo FROM users WHERE nickname = '{$nickname}'");
+                            confirm($query);
+                            $row = fetch_array($query)[0];
+                            $user_photo = display_image($row);
+                            echo "<img width='25' src='./{$user_photo}' alt='' class='img-circle'>" . " " . $_SESSION['nickname']; 
                         }else{
-                            echo "匿名";
+                            echo "<i class='fa fa-user'></i> 匿名";
                         }
                     ?> 
                     <b class="caret"></b>
@@ -63,12 +68,12 @@
                             if(isset($_SESSION['nickname'])){
                                 echo '<a href="admin/logout.php">
                                         <i class="fa fa-fw fa-power-off fa-1x"></i>
-                                        ログアウト
+                                         ログアウト
                                      </a>';
                             }else{
                                 echo '<a href="login.php">
                                         <i class="fa fa-fw fa-sign-in fa-1x"></i>
-                                        ログイン
+                                         ログイン
                                      </a>';
                             }    
                         ?>

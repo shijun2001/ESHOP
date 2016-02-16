@@ -36,7 +36,7 @@
             <aside id="admin_sidebar" class="col-md-4">     
                 <div class="form-group">
                     <input type="submit" name="publish" class="btn btn-primary btn-lg" value="送信">
-                    <a href="index.php" class="btn btn-warning btn-lg">取消</a>
+                    <a href="javascript:history.go(-1);" class="btn btn-warning btn-lg">取消</a>
                 </div>
 
                 <!-- Product Categories-->

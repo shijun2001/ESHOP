@@ -6,6 +6,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 		<title>簡単小舗・アドミン</title>
+		<link rel="icon" type="image/png" href="../img/title.png">
 		<!-- 新 Bootstrap 核心 CSS 文件 -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 

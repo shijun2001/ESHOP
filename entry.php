@@ -119,7 +119,7 @@
 <div class="container">
     <header>
         <h1 class="text-center">新規登録</h1>
-        <h5 class="text-center bg-warning text-danger"><?php display_message(); ?></h5>
+        <h5 class="text-center bg-warning text-danger"><?php display_message_danger(); ?></h5>
         <div class="col-sm-6 col-sm-offset-3">
 
 <?php
@@ -128,7 +128,7 @@
                 <div class="form-group bottom-space">
                     <label class="col-sm-3 control-label" for="nickname">ニックネーム:</label>
                     <div class="col-sm-9">
-                        <input type="text" name="nickname" class="form-control" placeholder="4~10桁以内英数字" value="%s">
+                        <input type="text" name="nickname" class="form-control" placeholder="4~10桁以内英数字（※変更できません）" value="%s">
                     </div>              
                 </div>
                 <div class="form-group bottom-space">
@@ -152,13 +152,13 @@
                 <div class="form-group bottom-space">
                     <label class="col-sm-3 control-label" for="email">メール:</label>
                     <div class="col-sm-9">
-                        <input type="text" name="email" class="form-control" placeholder="会員IDとなります" value="%s">
+                        <input type="text" name="email" class="form-control" placeholder="会員IDとなります（※変更できません）" value="%s">
                     </div>
                 </div>
                 <div class="form-group bottom-space">
                     <label class="col-sm-3 control-label" for="adr">住所:</label>
                     <div class="col-sm-9">
-                        <input type="text" name="adr" class="form-control" value="%s">
+                        <input type="text" name="adr" class="form-control" placeholder="英数字、漢字、符号で"　value="%s">
                     </div>
                 </div>
                 <div class="form-group bottom-space">
@@ -175,11 +175,11 @@
                         </div>                  
                         <label class="col-sm-1 control-label birth-label" for="birth_year">年</label>                
                         <div class="col-sm-2 birth">
-                            <input type="number" min="1" max="12" name="birth_mon" class="form-control" value="%s">
+                            <input type="number" min="1" max="12" name="birth_mon" class="form-control" placeholder="月" value="%s">
                         </div>                  
                         <label class="col-sm-1 control-label birth-label" for="birth_mon">月</label>                    
                         <div class="col-sm-2 birth">                
-                            <input type="number" min="1" max="31" name="birth_day" class="form-control" value="%s">   
+                            <input type="number" min="1" max="31" name="birth_day" class="form-control" placeholder="日" value="%s">   
                         </div>                 
                         <label class="col-sm-1 control-label birth-label" for="birth_day">日</label>
                     </div>

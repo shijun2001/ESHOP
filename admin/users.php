@@ -3,7 +3,7 @@
         <h1 class="page-header">
             <i class="fa fa-fw fa-users"></i>すべてのユーザー 
         </h1>
-        <h4 class="bg-success"><?php display_message(); ?></h4> 
+        <h4 class="bg-success"><?php display_message_success(); ?></h4> 
     </div>
 
     <div class="row">

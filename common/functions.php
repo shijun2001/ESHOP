@@ -46,9 +46,23 @@ function set_message($msg){
 	}
 }
 
-function display_message(){
+function display_message_success(){
 	if(isset($_SESSION['message'])){
-		echo $_SESSION['message'];
+		echo '<div class="alert alert-success" role="alert">' . $_SESSION['message'] . '</div>';
+		unset($_SESSION['message']);
+	}
+}
+
+function display_message_warning(){
+	if(isset($_SESSION['message'])){
+		echo '<div class="alert alert-warning" role="alert">' . $_SESSION['message'] . '</div>';
+		unset($_SESSION['message']);
+	}
+}
+
+function display_message_danger(){
+	if(isset($_SESSION['message'])){
+		echo '<div class="alert alert-danger" role="alert">' . $_SESSION['message'] . '</div>';
 		unset($_SESSION['message']);
 	}
 }
@@ -65,13 +79,20 @@ function last_id(){
 /******** Get Products ********/
 function get_products(){
 	$pagesize = 11;
-	$query = query("SELECT * FROM products WHERE product_quantity <> 0 ORDER BY product_id asc LIMIT " . $pagesize);
+	$query = query("SELECT * FROM products WHERE product_quantity > 0 ORDER BY add_datetime desc LIMIT " . $pagesize);
 	confirm($query);
 	$price = 0;
 
 	while($row = fetch_array($query)){
 		$price = number_format($row['product_price']);
 		$product_image = display_image($row['product_image']);
+		$str_len = 80;
+
+		if(strlen($row['short_desc']) > $str_len){
+			$short_desc = mb_strcut($row['short_desc'], 0, $str_len, 'utf-8') . "...";
+		}else{
+			$short_desc = $row['short_desc'];
+		}
 
 		$product = <<<DELIMETER
 					<div class="col-sm-6 col-lg-4 col-md-6">
@@ -79,12 +100,9 @@ function get_products(){
 	                        <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 	                        <div class="caption">
 	                            <h4 class="pull-right">&yen;{$price}</h4>
-	                            <h4><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h4>
-	                            <p>
-	                            	<a target="_blank" href="https://www.amazon.co.jp">Amazon- https://www.amazon.co.jp</a>
-	                            	でこのオンラインストアのアイテムのように多くの情報を参照してください。
-	                            </p>
-	                        	<a class="btn btn-primary" target="_blank" href="./common/cart.php?add={$row['product_id']}">カートに入れる</a>
+	                            <h4><b><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></b></h4>
+	                            <p>{$short_desc}</p>
+	                        	<a class="btn btn-primary" href="./common/cart.php?add={$row['product_id']}">カートに入れる</a>
 	                        	<a href="item.php?id={$row['product_id']}" class="btn btn-default">すべて見る</a>
 	                        </div>	                        
 	                    </div>
@@ -98,12 +116,15 @@ DELIMETER;
 
 /******** Get Categories ********/
 function get_categories(){	
-	$query = query("SELECT * FROM categories");
+	$query = query("SELECT * FROM categories ");
 	confirm($query);
 
 	while($row = fetch_array($query)){
+		$pro_query = query("SELECT COUNT(*) FROM products WHERE product_category_id = {$row['cat_id']}");
+		confirm($pro_query);
+		$count = fetch_array($pro_query)[0];
 		$category = <<<DELIMETER
-					<a href='category.php?id={$row['cat_id']}' class='list-group-item'>{$row['cat_title']}</a>
+					<a href='category.php?id={$row['cat_id']}' class='list-group-item'><span class="badge">{$count}</span><i class="fa fa-bookmark-o"></i>&nbsp;&nbsp;{$row['cat_title']}</a>
 DELIMETER;
 		
 		echo $category;
@@ -111,12 +132,91 @@ DELIMETER;
 	mysqli_free_result($query);
 }
 
-/******** Get Products in Category Page ********/
-function get_products_in_cat_page(){
-	$query = query("SELECT * FROM products WHERE product_category_id = " . escape_string($_GET['id']) . " ");
-	confirm($query);
+/******** Get sold ********/
+function get_sold(){	
+	$soldsize = 10;
+	$query = query("SELECT product_id,product_title,SUM(product_quantity) AS 'TOTLE' FROM reports GROUP BY product_id ORDER BY TOTLE desc LIMIT " . $soldsize);
+	confirm($query);	
 
 	while($row = fetch_array($query)){
+		$imagequery = query("SELECT * FROM products WHERE product_id = {$row['product_id']}");
+		confirm($imagequery);
+		$row = fetch_array($imagequery);
+		$product_image = display_image($row['product_image']);
+
+		$category = <<<DELIMETER
+					<a href='item.php?id={$row['product_id']}' class='list-group-item'>
+						<img width="40" src="./{$product_image}" alt="">
+						 {$row['product_title']}
+					</a>
+DELIMETER;
+		
+		echo $category;
+	}
+	mysqli_free_result($query);
+}
+
+/******** Get ninnkis ********/
+function get_ninki(){	
+	$ninkisize = 10;
+	$query = query("SELECT product_id,product_title,COUNT(product_id) AS 'TOTLE' FROM reports GROUP BY product_id ORDER BY TOTLE desc LIMIT " . $ninkisize);
+	confirm($query);	
+
+	while($row = fetch_array($query)){
+		$imagequery = query("SELECT * FROM products WHERE product_id = {$row['product_id']}");
+		confirm($imagequery);
+		$row = fetch_array($imagequery);
+		$product_image = display_image($row['product_image']);
+
+		$category = <<<DELIMETER
+					<a href='item.php?id={$row['product_id']}' class='list-group-item'>
+						<img width="40" src="./{$product_image}" alt="">
+						 {$row['product_title']}
+					</a>
+DELIMETER;
+		
+		echo $category;
+	}
+	mysqli_free_result($query);
+}
+
+/******** Get item ********/
+function get_item(){	
+	$itemsize = 5;
+	$product_query = query("SELECT product_category_id FROM products WHERE product_id = " . escape_string($_GET['id']) . " ");
+	confirm($product_query);
+	$pro_cat_id = fetch_array($product_query)[0];
+
+	$query = query("SELECT product_id,product_title,COUNT(product_id) AS 'TOTLE' FROM reports WHERE category_id = {$pro_cat_id} GROUP BY product_id ORDER BY TOTLE desc LIMIT " . $itemsize);
+	confirm($query);	
+
+	while($row = fetch_array($query)){
+		$imagequery = query("SELECT * FROM products WHERE product_id = {$row['product_id']}");
+		confirm($imagequery);
+		$row = fetch_array($imagequery);
+		$product_image = display_image($row['product_image']);
+
+		$category = <<<DELIMETER
+					<a href='item.php?id={$row['product_id']}' class='list-group-item'>
+						<img width="40" src="./{$product_image}" alt="">
+						 {$row['product_title']}
+					</a>
+DELIMETER;
+		
+		echo $category;
+	}
+	mysqli_free_result($query);
+}
+
+
+/******** Get Products in Category Page ********/
+function get_products_in_cat_page(){
+	$query = query("SELECT * FROM products WHERE product_category_id = " . escape_string($_GET['id']) . " ORDER BY add_datetime desc");
+	confirm($query);
+	$price = 0;
+
+	while($row = fetch_array($query)){
+		$price = number_format($row['product_price']);
 		$product_image = display_image($row['product_image']);
 		$str_len = 80;
 
@@ -127,7 +227,9 @@ function get_products_in_cat_page(){
 		}
 
 		if($row['product_quantity'] == 0){
-			$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";		                            ;
+			$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";
+		}else if($row['product_quantity'] < 0){
+			$display_button = "<a href='#' class='btn btn-warning disabled'>未発売</a>";
 		}else{
 			$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a>
 		                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
@@ -139,6 +241,7 @@ function get_products_in_cat_page(){
 		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
+		                        <p class="text-right">&yen;{$price}</p>
 		                        <p>{$short_desc}</p>
 		                        <p>
 		                            {$display_button}
@@ -169,10 +272,12 @@ function get_products_in_shop_page(){
 	if(isset($_SESSION['search'])){
 	$search = escape_string($_SESSION['search']);
 
-	$query = query("SELECT * FROM products WHERE product_id LIKE '%{$search}%' OR product_title LIKE '%{$search}%'");
+	$query = query("SELECT * FROM products WHERE product_id LIKE '%{$search}%' OR product_title LIKE '%{$search}%' OR short_desc LIKE '%{$search}%' ORDER BY add_datetime desc");
 	confirm($query);
+	$price = 0;
 
 	while($row = fetch_array($query)){
+		$price = number_format($row['product_price']);
 		$product_image = display_image($row['product_image']);
 		$str_len = 80;
 
@@ -183,7 +288,9 @@ function get_products_in_shop_page(){
 		}
 
 		if($row['product_quantity'] == 0){
-			$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";		                            ;
+			$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";
+		}else if($row['product_quantity'] < 0){
+			$display_button = "<a href='#' class='btn btn-warning disabled'>未発売</a>";
 		}else{
 			$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a>
 		                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
@@ -195,6 +302,7 @@ function get_products_in_shop_page(){
 		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
+		                        <p class="text-right">&yen;{$price}</p>
 		                        <p>{$short_desc}</p>
 		                        <p>
 		                            {$display_button}
@@ -209,10 +317,12 @@ DELIMETER;
 	db_free_close($query);	
 	unset($_SESSION['search']); 
 	}else{
-		$query = query("SELECT * FROM products");
+		$query = query("SELECT * FROM products ORDER BY add_datetime desc");
 		confirm($query);
+		$price = 0;
 
 		while($row = fetch_array($query)){
+			$price = number_format($row['product_price']);
 			$product_image = display_image($row['product_image']);
 			$str_len = 80;
 
@@ -223,7 +333,9 @@ DELIMETER;
 			}
 
 			if($row['product_quantity'] == 0){
-				$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";		                            ;
+				$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a>";
+			}else if($row['product_quantity'] < 0){
+				$display_button = "<a href='#' class='btn btn-warning disabled'>未発売</a>";
 			}else{
 				$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a>
 			                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
@@ -235,6 +347,7 @@ DELIMETER;
 			                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 			                    <div class="caption">
 			                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
+			                        <p class="text-right">&yen;{$price}</p>
 			                        <p>{$short_desc}</p>
 			                        <p>
 			                            {$display_button}
@@ -275,7 +388,7 @@ function login_user(){
 
 /******** Contact Send Message ********/
 function send_message(){
-	if(isset($_POST['submit'])){
+	if(isset($_POST['send-mail'])){
 		$to			=	"murenkakashu@yahoo.co.jp";
 		$from_name	=	$_POST['name'];
 		$email		=	$_POST['email'];
@@ -297,6 +410,7 @@ function send_message(){
 }
 
 
+  
 
 
 //---------------- Back end Functions ------------------//
@@ -311,6 +425,7 @@ function pages($page,$pagesize,$db,$total_query,$command){
 		$total_result = fetch_array($total_query);
 		$total = $total_result[0];
 		$total_pages = ceil($total/$pagesize);
+		$last = $total_pages - 1;
 
 		/* Show pages */
 		$pageoffset = ($showpage-1)/2;
@@ -322,6 +437,9 @@ function pages($page,$pagesize,$db,$total_query,$command){
 
 		if($page > 0){
 			$pagebanner .= "    
+								<li>
+									<a href='{$_SERVER["PHP_SELF"]}?{$command}&p=0'>最初</a>
+								</li>
 				                <li>
 				                	<a href='{$_SERVER["PHP_SELF"]}?{$command}&p={$prev}' aria-label='Previous'>
 				                        <span aria-hidden='true'>&laquo;</span>
@@ -362,12 +480,15 @@ function pages($page,$pagesize,$db,$total_query,$command){
 				                        <span aria-hidden='true'>&raquo;</span>
 				                    </a>
 				                </li>
+				                <li>
+									<a href='{$_SERVER["PHP_SELF"]}?{$command}&p={$last}'>最終</a>
+								</li>
 							";
 		}
 
 		$pagebanner .= "
-								<li><a href='#'>共{$total_pages}頁</a></li>
-				                <li><a href='#'>第{$next}頁</a></li>	
+								<li><a href='#' class='btn disabled'>共{$total_pages}頁</a></li>
+				                <li><a href='#' class='btn disabled'>第{$next}頁</a></li>	
 		                	</ul>
 				        </nav>";
 
@@ -476,6 +597,7 @@ function add_products(){
 		$product_quantity		=	escape_string($_POST['product_quantity']);
 		$product_image			=	escape_string($_FILES['file']['name']);
 		$image_temp_location	=	stripslashes(escape_string($_FILES['file']['tmp_name']));
+		$add_datetime    =   date("Y-m-d H:i:s");
 
 		/*if (!move_uploaded_file($image_temp_location, UPLOAD_DIRECTORY . DS . $product_image)){			
 			echo "エラー：".$_FILES['file']['error']."<br>";
@@ -493,7 +615,8 @@ function add_products(){
 										product_description, 
 										short_desc, 
 										product_quantity, 
-										product_image
+										product_image,
+										add_datetime
 									) 
 							  VALUES(
 										'{$product_title}',
@@ -502,7 +625,8 @@ function add_products(){
 										'{$product_description}', 
 										'{$short_desc}', 
 										'{$product_quantity}', 
-										'{$product_image}'
+										'{$product_image}',
+										'{$add_datetime}'
 									)"
 						);
 		$last_id = last_id();
@@ -527,6 +651,7 @@ function update_products(){
 		$product_quantity		=	escape_string($_POST['product_quantity']);
 		$product_image			=	escape_string($_FILES['file']['name']);
 		$image_temp_location	=	stripslashes(escape_string($_FILES['file']['tmp_name']));
+		$add_datetime    =   date("Y-m-d H:i:s");
 
 		if(empty($product_image)){
 			$get_pic_query = query("SELECT product_image FROM products WHERE product_id=" . escape_string($_GET['id']) ." ");
@@ -546,7 +671,9 @@ function update_products(){
 					product_description='{$product_description}',
 					short_desc='{$short_desc}',
 					product_quantity='{$product_quantity}',
-					product_image='{$product_image}' WHERE product_id=" . escape_string($_GET['id']) ." ");		
+					product_image='{$product_image}' ,
+					add_datetime='{$add_datetime}'
+					WHERE product_id=" . escape_string($_GET['id']) ." ");		
 		confirm($send_update_query);
 		
 		set_message("商品が更新されました!");
@@ -582,11 +709,13 @@ function display_categories(){
 	while($row = fetch_array($query)){
 		$cat_id = $row['cat_id'];
 		$cat_title = $row['cat_title'];
+		$cat_desc = $row['cat_desc'];
 
 		$category = <<<DELIMETER
 					<tr>
                 		<td>{$cat_id}</td>
                			<td>{$cat_title}</td>
+               			<td id="cat_dis" >{$cat_desc}</td>
                			<td><a class="btn btn-danger" href="delete_category.php?id={$row['cat_id']}">
                				<span class='glyphicon glyphicon-remove'></span></a>
                			</td>
@@ -601,11 +730,12 @@ DELIMETER;
 function add_category(){
 	if(isset($_POST['add_category'])){
 		$cat_title = escape_string($_POST['cat_title']);
+		$cat_desc = escape_string($_POST['cat_desc']);
 
 		if(empty($cat_title) || $cat_title == " "){
 			echo "<p class='bg-danger'>これは空にすることはできません!</p>";
 		}else{
-			$insert_cat = query("INSERT INTO categories(cat_title) VALUES('{$cat_title}') ");
+			$insert_cat = query("INSERT INTO categories(cat_title, cat_desc) VALUES('{$cat_title}', '{$cat_desc}') ");
 			confirm($insert_cat);
 			set_message("カテゴリーを追加しました!");
 		}

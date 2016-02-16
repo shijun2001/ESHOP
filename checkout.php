@@ -8,7 +8,7 @@
 	<!-- row --> 
 	<div class="row">
 		<h1><i class="fa fa-fw fa-shopping-cart fa-2x"></i>カート</h1>
-		<h4 class="text-center bg-danger"><?php display_message(); ?></h4>
+		<h4 class="text-center bg-danger"><?php display_message_warning(); ?></h4>
 		<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 			<input type="hidden" name="charset" value="utf-8">
 			<input type="hidden" name="cmd" value="_cart">
@@ -70,6 +70,5 @@
 		</div><!-- CART TOTALS-->
 	</div><!-- .row-->
 </div><!-- .container-->
-
 
 <?php include("./front/footer.php"); ?>

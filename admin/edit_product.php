@@ -7,7 +7,7 @@
             $product_title          =   escape_string($row['product_title']);
             $product_category_id    =   escape_string($row['product_category_id']);
             $product_price          =   escape_string($row['product_price']);
-            $product_description    =   escape_string($row['product_description']);
+            $product_description    =   $row['product_description'];
             $short_desc             =   escape_string($row['short_desc']);
             $product_quantity       =   escape_string($row['product_quantity']);
             $product_image          =   escape_string($row['product_image']);
@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     <label for="product-title">商品紹介</label>
-                    <textarea name="product_description" cols="30" rows="6" class="form-control"><?php echo escape_string($product_description); ?></textarea>
+                    <textarea name="product_description" cols="30" rows="6" class="form-control"><?php echo $product_description; ?></textarea>
                 </div>
 
                 <div class="form-group">
@@ -55,7 +55,7 @@
             <aside id="admin_sidebar" class="col-md-4">     
                 <div class="form-group">
                     <input type="submit" name="update" class="btn btn-primary btn-lg" value="更新">
-                    <a href="index.php?products&p=0" class="btn btn-warning btn-lg">取消</a>
+                    <a href="javascript:history.go(-1);" class="btn btn-warning btn-lg">取消</a>
                 </div>
 
                 <!-- Product Categories-->

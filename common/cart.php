@@ -125,12 +125,14 @@ function show_paypal(){
 			            <input type="image" name="upload" border="0"
 		                    src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
 		                    alt="PayPal - The safer, easier way to pay online">
+		                <br/>　
+		                <p><a href="javascript:history.go(-1);"><u>こちらで前のページに戻る</u></a></p>
 
 DELIMETER;
 			return $paypal_button;
 		}
 	}else{
-		echo "<p class='text-danger'>※注意: お支払いの前に<a href='login.php'><u>ログイン</u></a>してください!</p>";
+		echo "<p class='text-danger'>※注意: お支払いの前に<a href='login.php'><u>ログイン</u></a>してください!</p><p>こちらで前のページに<a href='javascript:history.go(-1);'><u>戻る</u></a></p>";
 	}
 }
 
@@ -175,14 +177,15 @@ function process_transaction(){
 
 						$product_title = $row['product_title'];
 						$product_price = $row['product_price'];
+						$product_category_id = $row['product_category_id'];
 						$price = number_format($product_price);
 						$product_sub = $row['product_price'] * $value;
 						$sub = number_format($product_sub);
 
 						$item_quantity += $value;
 
-						$insert_report = query("INSERT INTO reports (product_id, order_id, product_title, product_price, product_quantity, report_date, report_time, buyer_name) 
-												VALUES ('{$id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}','{$report_time}','{$buyer}')");
+						$insert_report = query("INSERT INTO reports (product_id, category_id, order_id, product_title, product_price, product_quantity, report_date, report_time, buyer_name) 
+												VALUES ('{$id}','{$product_category_id}','{$last_id}','{$product_title}','{$product_price}','{$value}','{$report_date}','{$report_time}','{$buyer}')");
 						confirm($insert_report);
 
 

@@ -2,14 +2,13 @@
 <?php include("./front/header.php"); ?>
 
 
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-12 text-center">
             <h1 class="section-heading"><i class="fa fa-fw fa-comments-o fa-2x"></i>コンタクト</h1>
             <h4 class="section-subheading">
-                <?php display_message(); ?>
+                <?php display_message_success(); ?>
             </h4> 
         </div>
     </div>
@@ -32,12 +31,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <textarea name="message" class="form-control" placeholder="メッセージ" id="message" required data-validation-required-message="メッセージを入力してください。"></textarea>                            
+                            <textarea name="content" class="form-control" rows="6" placeholder="メッセージ" id="message" required data-validation-required-message="メッセージを入力してください。"></textarea>                            
                         </div>
                     </div>
                     
                     <div class="col-lg-12 text-center">
-                        <button type="submit" name="submit"　class="btn btn-primary">&nbsp;送 信&nbsp;</button>
+                        <button type="submit" name="send-mail"　class="btn btn-primary">&nbsp;送 信&nbsp;</button>
                     </div>
                 </div>
             </form>

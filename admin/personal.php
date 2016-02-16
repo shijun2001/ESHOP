@@ -8,7 +8,7 @@
         <h1 class="page-header">
             <i class="fa fa-fw fa-leaf"></i>個人情報
         </h1>
-        <h5 class="text-center bg-warning text-danger"><?php display_message(); ?></h5>       
+        <h5 class="text-center bg-warning text-danger"><?php display_message_success(); ?></h5>       
     </div>
     <div class="col-md-1">
         <img width="200" src="../<?php echo $user_photo; ?>" alt="">
@@ -17,7 +17,7 @@
     $html = '
     <div class="col-md-11">
         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
-            <div class="col-sm-8 col-sm-offset-2"> 
+            <div class="col-sm-9 col-sm-offset-2"> 
 
                 <div class="form-group bottom-space">
                     <label class="col-sm-3 control-label" for="nickname">ニックネーム:</label>
@@ -98,9 +98,11 @@
                     </div>                
                 </div>
 
-                <div class="form-group bottom-space col-sm-12">
-                    <input type="submit" name="update_user" class="btn btn-primary" value="更新">
-                    <a href="index.php?personal" class="btn btn-warning">取消</a>
+                <div class="form-group bottom-space">
+                    <div class="col-sm-6  col-sm-offset-9">
+                        <input type="submit" name="update_user" class="btn btn-primary" value="更新">&nbsp;&nbsp;&nbsp;
+                        <a href="index.php?personal" class="btn btn-warning">取消</a>
+                    </div>
                 </div>
             </div>
         </form>

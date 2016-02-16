@@ -1,12 +1,15 @@
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
 
+
+
 <!-- Page Content -->
 <div class="container">
 		<!-- Side Navigation -->
-    <?php include("./front/side_nav.php"); ?>
+    <?php include("./front/side_nav_item.php"); ?>
 
     <?php
+    	
         $query = query("SELECT * FROM products WHERE product_id = " . escape_string($_GET['id']) . " ");
         confirm($query);
         while($row = fetch_array($query)):
@@ -16,14 +19,14 @@
 		<!-- Row for Image and Short Description-->
 		<div class="row">
 			<div class="col-md-7">
-					<img class="img-responsive" src="<?php echo display_image($row['product_image']); ?>" alt="">
+					<img width="350" class="img-responsive" src="<?php echo display_image($row['product_image']); ?>" alt="">
 			</div>
 			<div class="col-md-5">
 				<div class="thumbnail"> 
 					<div class="caption-full">
 						<br>
 				        <h3>
-					        <?php echo $row['product_title']; ?>
+					        <b><?php echo $row['product_title']; ?></b>
 				        </h3>
 				        <hr>
 				        <h4 class="">&nbsp;
@@ -38,10 +41,19 @@
 					            <span class="glyphicon glyphicon-star-empty"></span>
 					        </p>
 					    </div>          
-						<p><?php echo $row['short_desc']; ?></p>   
+						<p class="item-des"><?php echo $row['short_desc']; ?></p>   
 					    <form action="">
 					        <div class="form-group">
-					        	<a href="./common/cart.php?add=<?php echo $row['product_id']; ?>" class="btn btn-primary">カートに入れる</a>
+						        <?php
+							        if($row['product_quantity'] == 0){
+										$display_button = "<a href='#' class='btn btn-danger disabled'>売り切れ</a> <a href='javascript:history.go(-1);' class='btn btn-default'>戻る</a>";		                            ;
+									}elseif($row['product_quantity'] < 0){
+										$display_button = "<a href='#' class='btn btn-warning disabled'>未発売</a> <a href='javascript:history.go(-1);' class='btn btn-default'>戻る</a>";
+									}else{
+										$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a> <a href='javascript:history.go(-1);' class='btn btn-default'>戻る</a>";
+									}
+									echo $display_button;
+								?>					        	
 					        </div>
 					    </form>
 					</div>
@@ -68,38 +80,40 @@
 								echo "商品番号: " . $row['product_id'] . "&nbsp;&nbsp;&nbsp;&nbsp;" . "商品名: " . $row['product_title']; 
 							?>
 						</p>           
-					    <p><?php echo $row['product_description']; ?></p>
+					    <p class="item-des"><?php echo nl2br($row['product_description']); ?></p>
 					</div>
 
-					<?php
-						$reviews = query("SELECT * FROM reviews ORDER BY review_date DESC");
-						confirm($reviews);
-					?>	
+					
 					<div role="tabpanel" class="tab-pane" id="profile">
 						<div class="col-md-6">
 					    	<h4>最も参考になったカスタマーレビュー</h4>
 					        <hr>
 					        <div class="row" id="reviews">
 					        	<ul>
-					        		<?php while($row = mysqli_fetch_assoc($reviews)): ?>
-										<li>
-											<div class="col-md-12">
-								                <span class="glyphicon glyphicon-star"></span>
-								                <span class="glyphicon glyphicon-star"></span>
-								                <span class="glyphicon glyphicon-star"></span>
-								                <span class="glyphicon glyphicon-star"></span>
-								                <span class="glyphicon glyphicon-star-empty"></span>
-								                <?php echo $row['rename']; ?>
-								                <span class="pull-right"><?php echo $row['review_date']." ".$row['review_time']; ?></span>
-								                <p><?php echo $row['review']; ?></p>
-								            </div>
-								        </li>
+					        		<?php 
+										
+									$reviews = query("SELECT * FROM reviews ORDER BY review_datetime DESC");
+									confirm($reviews);										
+					
+				        			while($row = mysqli_fetch_assoc($reviews)): ?>
+									<li>
+										<div class="col-md-12">
+							                <span class="glyphicon glyphicon-star"></span>
+							                <span class="glyphicon glyphicon-star"></span>
+							                <span class="glyphicon glyphicon-star"></span>
+							                <span class="glyphicon glyphicon-star"></span>
+							                <span class="glyphicon glyphicon-star-empty"></span>
+							                <span><?php echo $row['rename']; ?></span>
+							                <span class="pull-right">
+							                	<?php echo $row['review_datetime']; ?>
+							                </span>
+							                <p><?php echo $row['review']; ?></p>
+							            </div>
+							        </li>
 						            <?php endwhile; ?>
 						        </ul>
 					        </div>
-					        <hr>
-
-					   
+					        <hr>					   
 					    </div>
 
 						<div class="col-md-6">
@@ -122,11 +136,11 @@
 						        </div>
     							<br>            
 					            <div class="form-group">
-					            	<textarea name="review" id="review" cols="60" rows="10" class="form-control"  placeholder="メッセージ" required data-validation-required-message="メッセージを入力してください。"></textarea>
+					            	<textarea name="review-msg" id="review-msg" cols="60" rows="10" class="form-control"  placeholder="メッセージ" required data-validation-required-message="メッセージを入力してください。"></textarea>
 					            </div>
     							<br><br>
 					            <div class="form-group">
-					                <input type="submit" name="subrev" id="subrev" class="btn btn-primary" value="送 信">
+					                <input type="submit" name="review" id="review" class="btn btn-primary" value="送 信">
 					            </div>
 							</form>
 						</div>
@@ -139,5 +153,8 @@
 	<?php endwhile; ?>
 
 </div><!-- .container -->
+
+
+
 
 <?php include("./front/footer.php"); ?>

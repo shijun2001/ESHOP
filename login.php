@@ -9,7 +9,7 @@
         <div class="front-logo">                                
             <span class='fa fa-user fa-5x'></span>
         </div>
-        <h4 class="text-center bg-warning"><?php display_message(); ?></h4>
+        <h4 class="text-center bg-warning"><?php display_message_warning(); ?></h4>
     	<div class="col-sm-6 col-sm-offset-3">         
         	<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                 <?php login_user(); ?>

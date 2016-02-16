@@ -5,11 +5,18 @@
 <!-- Page Content -->
 <div class="container">
 
+    <?php
+        $query = query("SELECT * FROM categories WHERE cat_id = " . escape_string($_GET['id']) . " ");
+        confirm($query);
+        while($row = fetch_array($query)):
+    ?>
+
     <!-- Header -->
     <header class="jumbotron hero-spacer">
         <h1>いらっしゃいませ！</h1>
-        <p>イーソン・チャン（陳奕迅、Eason Chan，1974年7月27日－）は、中華圏で絶大な人気を誇る香港出身の歌手、俳優。</p>
-        <p><a class="btn btn-primary btn-large">アクション!</a>
+        <p id="cat-intro"><?php echo $row['cat_desc']; ?></p>
+        <p>
+            <a href='javascript:history.go(-1);' class='btn btn-primary'>こちらで前のページに戻る</a>
         </p>
     </header>
     <hr>
@@ -26,6 +33,8 @@
         <?php get_products_in_cat_page(); ?>
     </div><!-- .row -->
 	<hr>
+
+    <?php endwhile; ?>
 </div><!-- .container -->
 
 
