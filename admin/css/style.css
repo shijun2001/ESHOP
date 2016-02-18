@@ -218,3 +218,12 @@ ul.alert-dropdown {
 #cat_dis {
     width: 380px;
 }
+
+.navbar-right {
+    margin-right: 50px;
+    font-size: 18px;
+}
+
+.navbar-right a {
+    font-size: 18px;
+}

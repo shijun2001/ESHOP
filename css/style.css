@@ -98,6 +98,11 @@ body {
   line-height: 1.8em;
 }
 
+#reviews li {
+  list-style: none;
+  line-height: 1.7em;
+}
+
 
 
 

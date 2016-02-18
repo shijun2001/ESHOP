@@ -1,17 +1,29 @@
 <?php require_once("./common/config.php"); ?>
 <?php include("./front/header.php"); ?>
 
+<?php
+if(isset($_POST['review']) && isset($_GET['id'])){		
+		$rename		=	escape_string($_POST['review-name']);
+		$reemail	=	escape_string($_POST['review-email']);
+		$remsg		=	escape_string($_POST['review-msg']);
+		$reproid 	=	$_GET['id'];
+		$datetime 	=	date("Y-m-d H:i:s");
+		$insert_re = query("INSERT INTO reviews VALUES('', '{$rename}', '{$reemail}', '{$remsg}', '{$reproid}', '{$datetime}') ");
+		confirm($insert_re);
+		redirect("item.php?id={$reproid}");
+	}
 
+?>
 
 <!-- Page Content -->
 <div class="container">
 		<!-- Side Navigation -->
     <?php include("./front/side_nav_item.php"); ?>
 
-    <?php
-    	
+    <?php    	
         $query = query("SELECT * FROM products WHERE product_id = " . escape_string($_GET['id']) . " ");
         confirm($query);
+        $id = escape_string($_GET['id']);
         while($row = fetch_array($query)):
     ?>
 
@@ -92,8 +104,12 @@
 					        	<ul>
 					        		<?php 
 										
-									$reviews = query("SELECT * FROM reviews ORDER BY review_datetime DESC");
-									confirm($reviews);										
+									$reviews = query("SELECT * FROM reviews WHERE review_product_id ={$id} ORDER BY review_datetime DESC LIMIT 8");
+									confirm($reviews);
+
+									if(mysqli_num_rows($reviews) == 0){
+										echo "<h4>&nbsp;&nbsp;&nbsp;※今までのレビューがない※</h4>";
+									}else{									
 					
 				        			while($row = mysqli_fetch_assoc($reviews)): ?>
 									<li>
@@ -110,23 +126,44 @@
 							                <p><?php echo $row['review']; ?></p>
 							            </div>
 							        </li>
-						            <?php endwhile; ?>
+						            <?php 
+						            	endwhile; 
+						            }
+						            ?>
 						        </ul>
 					        </div>
 					        <hr>					   
 					    </div>
-
-						<div class="col-md-6">
+						<div class="col-md-6">							
     						<h3><i class="fa fa-fw fa-edit"></i>レビュー</h3>
-							<form action="#" class="form-inline" method="post">
+							<form class="form-inline" method="post">
+							<?php
+								if(isset($_SESSION['nickname'])){
+                            		$nickname = $_SESSION['nickname'];
+                            		$query = query("SELECT email FROM users WHERE nickname = '{$nickname}'");
+		                            confirm($query);
+		                            $email = fetch_array($query)[0];
+		                            echo "
+								<div class='form-group addreview bottom-space'>
+						            <label for='review-name'>名&nbsp;前&nbsp;:</label>
+						            <input type='text' class='form-control' name='review-name' placeholder='お名前' id='review-name' value='{$nickname}' readonly>
+						        </div>
+						        <div class='form-group addreview bottom-space'>
+						            <label for='review-email'>メール:</label>
+						            <input type='email' class='form-control' name='review-email' placeholder='メールアドレス' id='review-email' value='{$email}' readonly>
+						        </div>";
+						    	}else{
+						    	echo '
 								<div class="form-group addreview bottom-space">
 						            <label for="review-name">名&nbsp;前&nbsp;:</label>
-						            <input type="text" class="form-control" name="review-name" placeholder="お名前" id="review-name" required data-validation-required-message="お名前を入力してください。">
+						            <input type="text" class="form-control" name="review-name" placeholder="お名前" id="review-name" required data-validation-required-message="名前を入力してください。">
 						        </div>
 						        <div class="form-group addreview bottom-space">
 						            <label for="review-email">メール:</label>
 						            <input type="email" class="form-control" name="review-email" placeholder="メールアドレス" id="review-email" required data-validation-required-message="メールアドレスを入力してください。">
-						        </div>
+						        </div>';
+						    }
+						    ?>
 						        <div>
 						            <h3>評価</h3>
 						            <span class="glyphicon glyphicon-star"></span>

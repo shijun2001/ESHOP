@@ -36,7 +36,7 @@
                     </div>
                     
                     <div class="col-lg-12 text-center">
-                        <button type="submit" name="send-mail"　class="btn btn-primary">&nbsp;送 信&nbsp;</button>
+                        <input type="submit" name="send-mail" value="送 信" class="btn btn-primary">
                     </div>
                 </div>
             </form>

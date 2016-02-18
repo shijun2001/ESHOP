@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-02-16 06:24:17
+-- Generation Time: 2016-02-17 05:46:42
 -- 服务器版本： 5.6.26
 -- PHP Version: 5.5.28
 
@@ -217,16 +217,19 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `review` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `review_product_id` int(11) NOT NULL,
   `review_datetime` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `reviews`
 --
 
 INSERT INTO `reviews` (`id`, `rename`, `reemail`, `review`, `review_product_id`, `review_datetime`) VALUES
-(1, 'sirine', 'sirine2001@gmail.com', '很好的商品，谢谢！', 2, '2016-02-04 00:00:00'),
-(2, 'koizumi', 'koizumi@halcom', 'goodgood', 21, '2016-02-09 00:00:00'),
-(3, 'sirine', 'sirine2001@gmail.com', '下次还买', 11, '2016-02-13 00:00:00');
+(1, 'sirine', 'sirine2001@gmail.com', 'エピソードⅢのDVDは字幕がありませんが殆どがミュージックビデオのようなものなので問題ありません。', 2, '2016-02-04 00:00:00'),
+(2, 'koizumi', 'koizumi@halcom', 'ただ残念なのは、詳細な解説書もなく、２００４年版のものをまったく装丁が一緒というのが残念。音質は最高である。', 21, '2016-02-09 00:00:00'),
+(3, 'sirine', 'sirine2001@gmail.com', '比較すると以前のものの方が微妙なアナログ感というか、味があります。', 11, '2016-02-13 00:00:00'),
+(4, 'sirine', 'sirine2001@gmail.com', '最初の２０世紀フォックスのファンファーレからメインテーマに流れるところは血沸き肉踊ります。', 13, '2016-02-17 13:02:12'),
+(5, '匿名', 'renren@qq.com', '買いたくても、お金がないんだ…', 30, '2016-02-17 13:41:45'),
+(6, 'sirine', 'sirine2001@gmail.com', '値段が高いぞ', 30, '2016-02-17 13:42:56');
 
 -- --------------------------------------------------------
 
@@ -343,7 +346,7 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `users`
 --
