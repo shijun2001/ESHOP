@@ -18,7 +18,9 @@
 		        <thead>
 		        	<tr>
 						<th>商品名</th>
+						<th>イメージ</th>
 						<th>価格</th>
+						<th>在庫数</th>
 						<th>購入数量</th>
 						<th>合計金額</th>		     
 		        	</tr>

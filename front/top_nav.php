@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container top-nav">
 	<!-- For mobile display -->
 	<div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -81,10 +81,18 @@
                 </ul>
             </li>
         </ul>
+        <?php search(); ?>
         <form class="navbar-form navbar-right" method="post">
-            <input type="text" name="search" id="search" class="form-control" placeholder="サーチ...">
+            <?php
+                if(isset($_SESSION['search'])){
+                    $search = $_SESSION['search'];
+                    echo "<input type='text' name='search' id='search' class='form-control' placeholder={$search}>";
+                }else{
+                    echo '<input type="text" name="search" id="search" class="form-control" placeholder="サーチ...">';
+                }
+            ?>
         </form>
-<?php search(); ?>
+
     </div><!-- .collapse -->
 
 </div><!-- .container -->

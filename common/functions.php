@@ -235,13 +235,36 @@ function get_products_in_cat_page(){
 		                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
 		}
 
+
+		$reviews = query("SELECT AVG(restar) AS avgstar FROM reviews WHERE review_product_id ={$row['product_id']}");
+		confirm($reviews);
+		$starrow = fetch_array($reviews);
+		$star = $starrow[0];
+
+		$line = query("SELECT restar FROM reviews WHERE review_product_id = {$row['product_id']}" );
+		confirm($line);
+		$line = mysqli_num_rows($line);
+
+		$ss = '';
+		if($line == 0){
+			$ss = '<span>※レビューがない※</span>';
+		}else{			
+							
+			for($i = 1;$star - $i >= -0.5 ;$i++){
+				$ss .= '<span class="glyphicon glyphicon-star"></span>';
+			}
+			for($j = 1;$j < 5.5 - $star;$j++){
+				$ss .= '<span class="glyphicon glyphicon-star-empty"></span>';
+			}
+		}			
+
 		$product = <<<DELIMETER
 					<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 		                <div class="thumbnail">
 		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
-		                        <p class="text-right">&yen;{$price}</p>
+		                        <p class="text-left ratings"><b>&yen;{$price}</b>&nbsp;&nbsp;&nbsp;{$ss}</p>
 		                        <p>{$short_desc}</p>
 		                        <p>
 		                            {$display_button}
@@ -260,7 +283,7 @@ DELIMETER;
 function search(){	
 	if(isset($_POST['search'])){
 		$search = escape_string($_POST['search']);
-		$_SESSION['search'] = $search;	
+		$_SESSION['search'] = $search;
 		if(strtolower($_SERVER['REQUEST_URI']) <> "/eshop/shop.php"){	
 			redirect("shop.php");
 		}
@@ -296,13 +319,35 @@ function get_products_in_shop_page(){
 		                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
 		}
 
+		$reviews = query("SELECT AVG(restar) AS avgstar FROM reviews WHERE review_product_id ={$row['product_id']}");
+		confirm($reviews);
+		$starrow = fetch_array($reviews);
+		$star = $starrow[0];
+
+		$line = query("SELECT restar FROM reviews WHERE review_product_id = {$row['product_id']}" );
+		confirm($line);
+		$line = mysqli_num_rows($line);
+
+		$ss = '';
+		if($line == 0){
+			$ss = '<span>※レビューがない※</span>';
+		}else{			
+							
+			for($i = 1;$star - $i >= -0.5 ;$i++){
+				$ss .= '<span class="glyphicon glyphicon-star"></span>';
+			}
+			for($j = 1;$j < 5.5 - $star;$j++){
+				$ss .= '<span class="glyphicon glyphicon-star-empty"></span>';
+			}
+		}	
+
 		$product = <<<DELIMETER
 					<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 		                <div class="thumbnail">
 		                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 		                    <div class="caption">
 		                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
-		                        <p class="text-right">&yen;{$price}</p>
+		                        <p class="text-left ratings"><b>&yen;{$price}</b>&nbsp;&nbsp;&nbsp;{$ss}</p>
 		                        <p>{$short_desc}</p>
 		                        <p>
 		                            {$display_button}
@@ -341,13 +386,35 @@ DELIMETER;
 			                            <a href='item.php?id={$row['product_id']}' class='btn btn-default'>すべて見る</a>";
 			}
 
+			$reviews = query("SELECT AVG(restar) AS avgstar FROM reviews WHERE review_product_id ={$row['product_id']}");
+			confirm($reviews);
+			$starrow = fetch_array($reviews);
+			$star = $starrow[0];
+
+			$line = query("SELECT restar FROM reviews WHERE review_product_id = {$row['product_id']}" );
+			confirm($line);
+			$line = mysqli_num_rows($line);
+
+			$ss = '';
+			if($line == 0){
+				$ss = '<span>※レビューがない※</span>';
+			}else{			
+								
+				for($i = 1;$star - $i >= -0.5 ;$i++){
+					$ss .= '<span class="glyphicon glyphicon-star"></span>';
+				}
+				for($j = 1;$j < 5.5 - $star;$j++){
+					$ss .= '<span class="glyphicon glyphicon-star-empty"></span>';
+				}
+			}	
+
 			$product = <<<DELIMETER
 						<div class="col-md-4 col-sm-6 col-lg-3 hero-feature">
 			                <div class="thumbnail">
 			                    <a href="item.php?id={$row['product_id']}"><img src="{$product_image}" alt=""></a>
 			                    <div class="caption">
 			                        <h3><a href="item.php?id={$row['product_id']}">{$row['product_title']}</a></h3>
-			                        <p class="text-right">&yen;{$price}</p>
+			                        <p class="text-left ratings"><b>&yen;{$price}</b>&nbsp;&nbsp;&nbsp;{$ss}</p>
 			                        <p>{$short_desc}</p>
 			                        <p>
 			                            {$display_button}
@@ -360,7 +427,8 @@ DELIMETER;
 			echo $product;
 		}
 		db_free_close($query);	
-	}	
+	}
+	
 }
 
 
@@ -409,7 +477,15 @@ function send_message(){
 	}
 }
 
-
+/******** Review Stars ********/
+function stars($star){
+	for($i = 1;$star - $i >= -0.5 ;$i++){
+		echo '<span class="glyphicon glyphicon-star"></span>';
+	}
+	for($j = 1;$j < 5.5 - $star;$j++){
+		echo '<span class="glyphicon glyphicon-star-empty"></span>';
+	}
+}
   
 
 

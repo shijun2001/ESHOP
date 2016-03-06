@@ -5,10 +5,11 @@
 if(isset($_POST['review']) && isset($_GET['id'])){		
 		$rename		=	escape_string($_POST['review-name']);
 		$reemail	=	escape_string($_POST['review-email']);
+		$restar		=	escape_string($_POST['range']);
 		$remsg		=	escape_string($_POST['review-msg']);
 		$reproid 	=	$_GET['id'];
 		$datetime 	=	date("Y-m-d H:i:s");
-		$insert_re = query("INSERT INTO reviews VALUES('', '{$rename}', '{$reemail}', '{$remsg}', '{$reproid}', '{$datetime}') ");
+		$insert_re = query("INSERT INTO reviews VALUES('', '{$rename}', '{$reemail}', '{$restar}', '{$remsg}', '{$reproid}', '{$datetime}') ");
 		confirm($insert_re);
 		redirect("item.php?id={$reproid}");
 	}
@@ -46,15 +47,26 @@ if(isset($_POST['review']) && isset($_GET['id'])){
 				        </h4>
 				    	<div class="ratings">     
 					        <p>
-					            <span class="glyphicon glyphicon-star"></span>
-					            <span class="glyphicon glyphicon-star"></span>
-					            <span class="glyphicon glyphicon-star"></span>
-					            <span class="glyphicon glyphicon-star"></span>
-					            <span class="glyphicon glyphicon-star-empty"></span>
+					        	<?php
+									$reviews = query("SELECT AVG(restar) AS avgstar FROM reviews WHERE review_product_id = {$id}");
+									confirm($reviews);
+									$starrow = fetch_array($reviews);
+									$star = $starrow[0];
+
+									$line = query("SELECT restar FROM reviews WHERE review_product_id = {$id}");
+									confirm($line);
+									$line = mysqli_num_rows($line);
+
+									if($line == 0){
+										echo '<span>※今までのレビューがない※</span>';
+									}else{						
+										stars($star);
+									}
+								?>					            
 					        </p>
 					    </div>          
 						<p class="item-des"><?php echo $row['short_desc']; ?></p>   
-					    <form action="">
+					    <form method="post">
 					        <div class="form-group">
 						        <?php
 							        if($row['product_quantity'] == 0){
@@ -65,6 +77,7 @@ if(isset($_POST['review']) && isset($_GET['id'])){
 										$display_button = "<a href='./common/cart.php?add={$row['product_id']}' class='btn btn-primary'>カートに入れる</a> <a href='javascript:history.go(-1);' class='btn btn-default'>戻る</a>";
 									}
 									echo $display_button;
+									
 								?>					        	
 					        </div>
 					    </form>
@@ -114,12 +127,11 @@ if(isset($_POST['review']) && isset($_GET['id'])){
 				        			while($row = mysqli_fetch_assoc($reviews)): ?>
 									<li>
 										<div class="col-md-12">
-							                <span class="glyphicon glyphicon-star"></span>
-							                <span class="glyphicon glyphicon-star"></span>
-							                <span class="glyphicon glyphicon-star"></span>
-							                <span class="glyphicon glyphicon-star"></span>
-							                <span class="glyphicon glyphicon-star-empty"></span>
-							                <span><?php echo $row['rename']; ?></span>
+											<?php
+												$star = $row['restar'];
+												stars($star);
+											?>							                
+							                <span><?php echo $row['rename']; ?></span>	
 							                <span class="pull-right">
 							                	<?php echo $row['review_datetime']; ?>
 							                </span>
@@ -135,7 +147,7 @@ if(isset($_POST['review']) && isset($_GET['id'])){
 					        <hr>					   
 					    </div>
 						<div class="col-md-6">							
-    						<h3><i class="fa fa-fw fa-edit"></i>レビュー</h3>
+    						<h3><i class="fa fa-fw fa-edit"></i> レビュー</h3>
 							<form class="form-inline" method="post">
 							<?php
 								if(isset($_SESSION['nickname'])){
@@ -164,14 +176,15 @@ if(isset($_POST['review']) && isset($_GET['id'])){
 						        </div>';
 						    }
 						    ?>
-						        <div>
-						            <h3>評価</h3>
-						            <span class="glyphicon glyphicon-star"></span>
-						            <span class="glyphicon glyphicon-star"></span>
-						            <span class="glyphicon glyphicon-star"></span>
-						            <span class="glyphicon glyphicon-star"></span>
+						        <br>
+						        <div class="form-group">
+						            <h3><i class="fa fa-star-half-o"></i> 評価</h3>
+									<div class="range range-success">
+							            <input type="range" name="range" min="1" max="5" value="5" onchange="rangeSuccess.value=value">
+							            <output id="rangeSuccess">5</output>
+							        </div>
 						        </div>
-    							<br>            
+    							<br>        
 					            <div class="form-group">
 					            	<textarea name="review-msg" id="review-msg" cols="60" rows="10" class="form-control"  placeholder="メッセージ" required data-validation-required-message="メッセージを入力してください。"></textarea>
 					            </div>

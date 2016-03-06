@@ -13,10 +13,10 @@
 
     <!-- Header -->
     <header class="jumbotron hero-spacer">
-        <h1>いらっしゃいませ！</h1>
+        <h1>HEW　2015！</h1>
         <p id="cat-intro"><?php echo $row['cat_desc']; ?></p>
         <p>
-            <a href='javascript:history.go(-1);' class='btn btn-primary'>こちらで前のページに戻る</a>
+            <a href='javascript:history.go(-1);' class='btn btn-primary'>こちらに前のページに戻る</a>
         </p>
     </header>
     <hr>

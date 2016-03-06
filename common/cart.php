@@ -74,12 +74,16 @@ function cart(){
 
 					$item_quantity += $value;
 
+					$product_image = display_image($row['product_image']);
 
 					$product = <<<DELIMETER
 								<tr>
-			                        <td>{$row['product_title']}<br>
-			                        </td>
+			                        <td>{$row['product_title']}</td>
+			                        <td>				                        
+				                		<img height="40" src="./{$product_image}" alt="" />
+			                		</td>
 			                        <td>&yen;{$price}</td>
+			                        <td>{$row['product_quantity']}</td>
 			                        <td>{$value}</td>
 			                        <td>&yen;{$sub}</td>
 			                        <td>
@@ -100,12 +104,12 @@ function cart(){
 								<input type="hidden" name="quantity_{$quantity}" value="{$value}">
 DELIMETER;
 
-				echo $product;
+					echo $product;
 
-				$item_name ++;
-				$item_number ++;
-				$amount ++;
-				$quantity ++;
+					$item_name ++;
+					$item_number ++;
+					$amount ++;
+					$quantity ++;
 
 				}
 
